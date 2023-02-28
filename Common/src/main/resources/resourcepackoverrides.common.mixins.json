@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_17",
+  "package": "fuzs.resourcepackoverrides.mixin",
+  "refmap": "resourcepackoverrides.refmap.json",
+  "mixins": [
+  ],
+  "client": [
+    "client.PackSelectionModelMixin",
+    "client.PackSelectionScreenMixin",
+    "client.MinecraftMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
