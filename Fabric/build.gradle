@@ -46,10 +46,6 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${fabricVersion}"
 //    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabricApiVersion}"
 
-    // Config Dependencies
-    implementation 'com.electronwill.night-config:core:3.6.5'
-    implementation 'com.electronwill.night-config:toml:3.6.5'
-
     // Quality of Life Mods
     modRuntimeOnly "com.terraformersmc:modmenu:4.0.6"
 //    modRuntimeOnly "curse.maven:tooltipfix-411557:3820437"

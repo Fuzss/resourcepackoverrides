@@ -7,7 +7,7 @@
   "mixins": [
   ],
   "client": [
-    "OptionsForgeMixin"
+    "client.OptionsForgeMixin"
   ],
   "injectors": {
     "defaultRequire": 1

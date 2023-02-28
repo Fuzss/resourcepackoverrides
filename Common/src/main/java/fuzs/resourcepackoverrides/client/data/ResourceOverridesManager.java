@@ -41,7 +41,7 @@ public class ResourceOverridesManager {
         OVERRIDES_BY_ID.clear();
         JsonElement jsonElement = JsonConfigFileUtil.GSON.fromJson(reader, JsonElement.class);
         JsonObject jsonObject = GsonHelper.convertToJsonObject(jsonElement, "resource pack override");
-        if (!GsonHelper.convertToString(jsonObject, "schema_version").equals(SCHEMA_VERSION)) throw new IllegalArgumentException("wrong config schema present");
+        if (!GsonHelper.getAsString(jsonObject, "schema_version").equals(SCHEMA_VERSION)) throw new IllegalArgumentException("wrong config schema present");
         failedReloads = GsonHelper.getAsInt(jsonObject, "failed_reloads_per_session", 5);
         if (jsonObject.has("default_resource_packs")) {
             JsonArray resourcePacks = jsonObject.getAsJsonArray("default_packs");
