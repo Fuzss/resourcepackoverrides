@@ -1,4 +1,4 @@
-version:3120
+version:2586
 autoJump:true
 autoSuggestions:true
 chatColors:true
@@ -11,37 +11,32 @@ discrete_mouse_scroll:false
 invertYMouse:false
 realmsNotifications:true
 reducedDebugInfo:false
+snooperEnabled:false
 showSubtitles:false
-directionalAudio:false
 touchscreen:false
 fullscreen:false
 bobView:true
 toggleCrouch:false
 toggleSprint:false
-darkMojangStudiosBackground:false
-hideLightningFlashes:false
 mouseSensitivity:0.5
 fov:0.0
 screenEffectScale:1.0
 fovEffectScale:1.0
-darknessEffectScale:1.0
-gamma:0.5
+gamma:0.0
 renderDistance:12
-simulationDistance:12
 entityDistanceScaling:1.0
 guiScale:0
 particles:0
 maxFps:120
+difficulty:2
 graphicsMode:1
 ao:2
-prioritizeChunkUpdates:0
 biomeBlendRadius:2
-renderClouds:"true"
-resourcePacks:["vanilla","file/Stay_True_1.19.zip","mod_resources","file/xali-s-Enchanted-Books-16x-v0.10.1.zip","file/Forbidden_GUI_Dakmode_v3.zip","file/Xaero\u0027s Minimap - Mod Icons.zip","file/NoBushyLeaves.zip"]
-incompatibleResourcePacks:["file/Xaero\u0027s Minimap - Mod Icons.zip","file/NoBushyLeaves.zip"]
+renderClouds:true
+resourcePacks:["vanilla","mod_resources","file/Stay_True_1.19.zip","file/xali-s-Enchanted-Books-16x-v0.10.1.zip","file/Forbidden_GUI_Dakmode_v3.zip","file/Xaero\u0027s Minimap - Mod Icons.zip","file/NoBushyLeaves.zip"]
+incompatibleResourcePacks:["vanilla","file/Stay_True_1.19.zip","file/xali-s-Enchanted-Books-16x-v0.10.1.zip","file/Forbidden_GUI_Dakmode_v3.zip","file/Xaero\u0027s Minimap - Mod Icons.zip","file/NoBushyLeaves.zip"]
 lastServer:
 lang:en_us
-soundDevice:""
 chatVisibility:0
 chatOpacity:1.0
 chatLineSpacing:0.0
@@ -54,13 +49,13 @@ overrideWidth:0
 overrideHeight:0
 heldItemTooltips:true
 chatHeightFocused:1.0
-chatDelay:0.0
-chatHeightUnfocused:0.4375
+chatDelay: 0.0
+chatHeightUnfocused:0.44366195797920227
 chatScale:1.0
 chatWidth:1.0
 mipmapLevels:4
 useNativeTransport:true
-mainHand:"right"
+mainHand:right
 attackIndicator:1
 narrator:0
 tutorialStep:movement
@@ -68,15 +63,9 @@ mouseWheelSensitivity:1.0
 rawMouseInput:true
 glDebugVerbosity:1
 skipMultiplayerWarning:false
-skipRealms32bitWarning:false
 hideMatchedNames:true
 joinedFirstServer:false
-hideBundleTutorial:false
-syncChunkWrites:false
-showAutosaveIndicator:true
-allowServerListing:true
-chatPreview:1
-onlyShowSecureChat:false
+syncChunkWrites:true
 key_key.attack:key.mouse.left
 key_key.use:key.mouse.right
 key_key.forward:key.keyboard.w

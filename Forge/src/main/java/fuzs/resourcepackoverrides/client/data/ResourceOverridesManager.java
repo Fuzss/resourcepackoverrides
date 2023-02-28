@@ -6,7 +6,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import fuzs.resourcepackoverrides.ResourcePackOverrides;
-import net.minecraft.util.GsonHelper;
+import net.minecraft.util.JSONUtils;
 
 import java.io.FileReader;
 import java.util.List;
@@ -40,10 +40,10 @@ public class ResourceOverridesManager {
     private static void deserializeAllOverrides(FileReader reader) {
         OVERRIDES_BY_ID.clear();
         JsonElement jsonElement = JsonConfigFileUtil.GSON.fromJson(reader, JsonElement.class);
-        JsonObject jsonObject = GsonHelper.convertToJsonObject(jsonElement, "resource pack override");
-        if (!GsonHelper.getAsString(jsonObject, "schema_version").equals(SCHEMA_VERSION)) throw new IllegalArgumentException("wrong config schema present");
-        failedReloads = GsonHelper.getAsInt(jsonObject, "failed_reloads_per_session", 5);
-        if (jsonObject.has("default_resource_packs")) {
+        JsonObject jsonObject = JSONUtils.convertToJsonObject(jsonElement, "resource pack override");
+        if (!JSONUtils.getAsString(jsonObject, "schema_version").equals(SCHEMA_VERSION)) throw new IllegalArgumentException("wrong config schema present");
+        failedReloads = JSONUtils.getAsInt(jsonObject, "failed_reloads_per_session", 5);
+        if (jsonObject.has("default_packs")) {
             JsonArray resourcePacks = jsonObject.getAsJsonArray("default_packs");
             ImmutableList.Builder<String> builder = ImmutableList.builder();
             for (JsonElement resourcePack : resourcePacks) {
@@ -62,11 +62,11 @@ public class ResourceOverridesManager {
     }
 
     private static PackSelectionOverride deserializeOverrideEntry(JsonElement jsonElement) {
-        JsonObject jsonObject = GsonHelper.convertToJsonObject(jsonElement, "resource pack override");
-        boolean forceCompatible = GsonHelper.getAsBoolean(jsonObject, "force_compatible", false);
-        boolean fixedPosition = GsonHelper.getAsBoolean(jsonObject, "fixed_position", false);
-        boolean required = GsonHelper.getAsBoolean(jsonObject, "required", false);
-        boolean hidden = GsonHelper.getAsBoolean(jsonObject, "hidden", false);
+        JsonObject jsonObject = JSONUtils.convertToJsonObject(jsonElement, "resource pack override");
+        boolean forceCompatible = JSONUtils.getAsBoolean(jsonObject, "force_compatible", false);
+        boolean fixedPosition = JSONUtils.getAsBoolean(jsonObject, "fixed_position", false);
+        boolean required = JSONUtils.getAsBoolean(jsonObject, "required", false);
+        boolean hidden = JSONUtils.getAsBoolean(jsonObject, "hidden", false);
         return new PackSelectionOverride(forceCompatible, fixedPosition, required, hidden);
     }
 }

@@ -1,19 +1,19 @@
 package fuzs.resourcepackoverrides.client.gui.screens.packs;
 
 import fuzs.resourcepackoverrides.client.data.PackSelectionOverride;
-import net.minecraft.client.gui.screens.packs.PackSelectionModel;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.repository.Pack;
-import net.minecraft.server.packs.repository.PackCompatibility;
-import net.minecraft.server.packs.repository.PackSource;
+import net.minecraft.client.gui.screen.PackLoadingManager;
+import net.minecraft.resources.IPackNameDecorator;
+import net.minecraft.resources.PackCompatibility;
+import net.minecraft.resources.ResourcePackInfo;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
 
-public class ForwardingPackSelectionModelEntry implements PackSelectionModel.Entry, PackAwareSelectionEntry {
-    private final Pack pack;
-    private final PackSelectionModel.Entry other;
+public class ForwardingPackSelectionModelEntry implements PackLoadingManager.IPack, PackAwareSelectionEntry {
+    private final ResourcePackInfo pack;
+    private final PackLoadingManager.IPack other;
     private final PackSelectionOverride override;
 
-    public ForwardingPackSelectionModelEntry(Pack pack, PackSelectionModel.Entry other, PackSelectionOverride override) {
+    public ForwardingPackSelectionModelEntry(ResourcePackInfo pack, PackLoadingManager.IPack other, PackSelectionOverride override) {
         this.pack = pack;
         this.other = other;
         this.override = override;
@@ -38,17 +38,17 @@ public class ForwardingPackSelectionModelEntry implements PackSelectionModel.Ent
     }
 
     @Override
-    public Component getTitle() {
+    public ITextComponent getTitle() {
         return this.other.getTitle();
     }
 
     @Override
-    public Component getDescription() {
+    public ITextComponent getDescription() {
         return this.other.getDescription();
     }
 
     @Override
-    public PackSource getPackSource() {
+    public IPackNameDecorator getPackSource() {
         return this.other.getPackSource();
     }
 

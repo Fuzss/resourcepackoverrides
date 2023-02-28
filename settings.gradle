@@ -27,4 +27,3 @@ pluginManagement {
 rootProject.name = "${modName.replaceAll("[^a-zA-Z]", "")}"
 //include("Common", "Fabric", "Forge")
 include("Forge")
-s

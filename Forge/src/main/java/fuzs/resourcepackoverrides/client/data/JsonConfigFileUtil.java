@@ -5,9 +5,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import fuzs.resourcepackoverrides.ResourcePackOverrides;
-import fuzs.resourcepackoverrides.core.CommonAbstractions;
-import org.jetbrains.annotations.Nullable;
+import net.minecraftforge.fml.loading.FMLPaths;
 
+import javax.annotation.Nullable;
 import java.io.*;
 import java.util.List;
 import java.util.function.Consumer;
@@ -212,7 +212,7 @@ public class JsonConfigFileUtil {
      * @return file
      */
     public static File getConfigPath(String jsonName) {
-        return CommonAbstractions.INSTANCE.getConfigDirectory().resolve(jsonName).toFile();
+        return FMLPaths.CONFIGDIR.get().resolve(jsonName).toFile();
     }
 
     /**
@@ -222,6 +222,6 @@ public class JsonConfigFileUtil {
      * @return file
      */
     public static File getSpecialConfigPath(String jsonName, String modId) {
-        return CommonAbstractions.INSTANCE.getConfigDirectory().resolve(modId).resolve(jsonName).toFile();
+        return FMLPaths.CONFIGDIR.get().resolve(modId).resolve(jsonName).toFile();
     }
 }

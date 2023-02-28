@@ -7,7 +7,7 @@ buildscript {
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
         classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
-        classpath group: 'org.parchmentmc', name: 'librarian', version: '1.+'
+//        classpath group: 'org.parchmentmc', name: 'librarian', version: '1.+'
     }
 }
 
@@ -18,8 +18,8 @@ plugins {
 }
 
 apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'org.parchmentmc.librarian.forgegradle'
-apply plugin: 'eclipse'
+//apply plugin: 'org.parchmentmc.librarian.forgegradle'
+//apply plugin: 'eclipse'
 apply plugin: 'org.spongepowered.mixin'
 
 archivesBaseName = rootProject.name
@@ -27,17 +27,17 @@ version = "v${modVersion}-${minecraftVersion}-Forge"
 group = modMavenGroup
 
 minecraft {
-    mappings channel: 'parchment', version: "${parchmentMappingsVersion}-${parchmentMinecraftVersion}"
-//    mappings channel: 'official', version: "${minecraftVersion}"
+//    mappings channel: 'parchment', version: "${parchmentMappingsVersion}-${parchmentMinecraftVersion}"
+    mappings channel: 'official', version: "${minecraftVersion}"
 
     runs {
         client {
             workingDirectory project.file('../run')
             jvmArgs '-Xms1G', '-Xmx4G'
             property 'fml.earlyprogresswindow', 'false'
-            if (project(":Common").file("src/main/resources/${modId}.common.mixins.json").exists()) {
-                arg "-mixin.config=${modId}.common.mixins.json"
-            }
+//            if (project(":Common").file("src/main/resources/${modId}.common.mixins.json").exists()) {
+//                arg "-mixin.config=${modId}.common.mixins.json"
+//            }
             if (project.file("src/main/resources/${modId}.forge.mixins.json").exists()) {
                 arg "-mixin.config=${modId}.forge.mixins.json"
             }
@@ -50,7 +50,7 @@ minecraft {
             mods {
                 modClientRun {
                     source sourceSets.main
-                    source project(":Common").sourceSets.main
+//                    source project(":Common").sourceSets.main
                 }
             }
         }
@@ -59,9 +59,9 @@ minecraft {
             workingDirectory project.file('../run')
             jvmArgs '-Xms1G', '-Xmx4G'
             arg 'nogui'
-            if (project(":Common").file("src/main/resources/${modId}.common.mixins.json").exists()) {
-                arg "-mixin.config=${modId}.common.mixins.json"
-            }
+//            if (project(":Common").file("src/main/resources/${modId}.common.mixins.json").exists()) {
+//                arg "-mixin.config=${modId}.common.mixins.json"
+//            }
             if (project.file("src/main/resources/${modId}.forge.mixins.json").exists()) {
                 arg "-mixin.config=${modId}.forge.mixins.json"
             }
@@ -74,7 +74,7 @@ minecraft {
             mods {
                 modServerRun {
                     source sourceSets.main
-                    source project(":Common").sourceSets.main
+//                    source project(":Common").sourceSets.main
                 }
             }
         }
@@ -82,9 +82,9 @@ minecraft {
         data {
             workingDirectory project.file('../run')
             jvmArgs '-Xms1G', '-Xmx4G'
-            if (project(":Common").file("src/main/resources/${modId}.common.mixins.json").exists()) {
-                arg "-mixin.config=${modId}.common.mixins.json"
-            }
+//            if (project(":Common").file("src/main/resources/${modId}.common.mixins.json").exists()) {
+//                arg "-mixin.config=${modId}.common.mixins.json"
+//            }
             if (project.file("src/main/resources/${modId}.forge.mixins.json").exists()) {
                 arg "-mixin.config=${modId}.forge.mixins.json"
             }
@@ -98,7 +98,7 @@ minecraft {
             mods {
                 modDataRun {
                     source sourceSets.main
-                    source project(":Common").sourceSets.main
+//                    source project(":Common").sourceSets.main
                 }
             }
         }
@@ -106,16 +106,16 @@ minecraft {
 }
 
 dependencies {
-    // Include Common Project
-    compileOnly project(":Common")
+//    // Include Common Project
+//    compileOnly project(":Common")
 
     // Minecraft
     minecraft "net.minecraftforge:forge:${forgeVersion}"
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
     // Quality of Life Mods
-    runtimeOnly fg.deobf("curse.maven:catalogue-459701:3873264")
-    runtimeOnly fg.deobf("fuzs.bettermodsbutton:bettermodsbutton-forge:4.2.0")
+//    runtimeOnly fg.deobf("curse.maven:catalogue-459701:3873264")
+//    runtimeOnly fg.deobf("fuzs.bettermodsbutton:bettermodsbutton-forge:4.2.0")
 //    runtimeOnly fg.deobf("curse.maven:configmenusforge-544048:3822820")
 //    runtimeOnly fg.deobf("curse.maven:configured-457570:3903908")
 
@@ -124,22 +124,25 @@ dependencies {
 }
 
 mixin {
-    if (project.file("src/main/resources/${modId}.forge.mixins.json").exists() || project(":Common").file("src/main/resources/${modId}.common.mixins.json").exists()) {
-        add project(":Common").sourceSets.main, "${modId}.refmap.json"
+//    if (project.file("src/main/resources/${modId}.forge.mixins.json").exists() || project(":Common").file("src/main/resources/${modId}.common.mixins.json").exists()) {
+//        add project(":Common").sourceSets.main, "${modId}.refmap.json"
+//    }
+    if (project.file("src/main/resources/${modId}.forge.mixins.json").exists()) {
+        add project.sourceSets.main, "${modId}.refmap.json"
     }
-    if (project(":Common").file("src/main/resources/${modId}.common.mixins.json").exists()) {
-        config "${modId}.common.mixins.json"
-    }
+//    if (project(":Common").file("src/main/resources/${modId}.common.mixins.json").exists()) {
+//        config "${modId}.common.mixins.json"
+//    }
     if (project.file("src/main/resources/${modId}.forge.mixins.json").exists()) {
         config "${modId}.forge.mixins.json"
     }
 }
 
 processResources {
-    from(project(":Common").sourceSets.main.resources) {
-        // we need to have this in common so that in a non-production environment the common jar is correctly deobfuscated
-        exclude("quilt.mod.json")
-    }
+//    from(project(":Common").sourceSets.main.resources) {
+//        // we need to have this in common so that in a non-production environment the common jar is correctly deobfuscated
+//        exclude("quilt.mod.json")
+//    }
     from(file('src/generated/resources')) {
         exclude('.cache/')
     }
@@ -193,17 +196,17 @@ processResources {
     }
 }
 
-compileJava {
-    source project(":Common").sourceSets.main.allSource
-}
-
-sourcesJar {
-    from project(":Common").sourceSets.main.allJava
-}
-
-javadoc {
-    source project(":Common").sourceSets.main.allJava
-}
+//compileJava {
+//    source project(":Common").sourceSets.main.allSource
+//}
+//
+//sourcesJar {
+//    from project(":Common").sourceSets.main.allJava
+//}
+//
+//javadoc {
+//    source project(":Common").sourceSets.main.allJava
+//}
 
 // important: the task may not run before 'compileJava', otherwise overridden/shadowed fields and methods in mixin classes will not be reobfuscated
 jar.finalizedBy("configureReobfTaskForReobfJar")

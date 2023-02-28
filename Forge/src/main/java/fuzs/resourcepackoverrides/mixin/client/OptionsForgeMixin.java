@@ -1,9 +1,9 @@
 package fuzs.resourcepackoverrides.mixin.client;
 
 import fuzs.resourcepackoverrides.client.data.ResourceOverridesManager;
-import net.minecraft.client.Options;
-import net.minecraft.server.packs.repository.Pack;
-import net.minecraft.server.packs.repository.PackRepository;
+import net.minecraft.client.GameSettings;
+import net.minecraft.resources.ResourcePackInfo;
+import net.minecraft.resources.ResourcePackList;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 
-@Mixin(Options.class)
+@Mixin(GameSettings.class)
 abstract class OptionsForgeMixin {
     @Shadow
     public List<String> resourcePacks;
@@ -22,8 +22,8 @@ abstract class OptionsForgeMixin {
     @Unique
     private boolean resourcePackOverrides$wasEmpty;
 
-    @Inject(method = "load(Z)V", at = @At("RETURN"), remap = false)
-    private void load(boolean limited, CallbackInfo callback) {
+    @Inject(method = "load", at = @At("RETURN"))
+    private void load(CallbackInfo callback) {
         // Add built-in resource packs if they are enabled by default only if the options file is blank.
         if (this.resourcePacks.isEmpty()) {
             this.resourcePackOverrides$wasEmpty = true;
@@ -35,13 +35,13 @@ abstract class OptionsForgeMixin {
     }
 
     @Inject(method = "loadSelectedResourcePacks", at = @At("HEAD"))
-    public void loadSelectedResourcePacks(PackRepository resourcePackList, CallbackInfo callback) {
+    public void loadSelectedResourcePacks(ResourcePackList resourcePackList, CallbackInfo callback) {
         // We need to add incompatible packs that are enabled by default to the incompatible list, otherwise they are removed here.
         // This cannot be done earlier as the pack repository is still empty.
         if (this.resourcePackOverrides$wasEmpty) {
             this.resourcePackOverrides$wasEmpty = false;
             for (String s : ResourceOverridesManager.getDefaultResourcePacks(false)) {
-                Pack pack = resourcePackList.getPack(s);
+                ResourcePackInfo pack = resourcePackList.getPack(s);
                 if (pack == null && !s.startsWith("file/")) {
                     pack = resourcePackList.getPack("file/" + s);
                 }
