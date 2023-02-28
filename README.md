@@ -34,22 +34,17 @@ The default resource pack list is included in the config file as a JSON array la
 
 The list is applied in reverse, meaning one resource pack placed above another will appear below that other pack in the resource pack selection screen. 
 
-Only external resource packs from `.minecraft/resourcepacks` must be included in the list, built-in resource packs like `vanilla` and `modresources` (Forge) / `Fabric Mods` (Fabric) are enabled either way automatically. They can still be included in the list though for ordering purposes.
+Only external resource packs from `.minecraft/resourcepacks` must be included in the list, built-in resource packs like `vanilla` and `modresources` (Forge) / `Fabric Mods` (Fabric) are always enabled. They can still be included in the list though for ordering purposes using their respective ids (which do not begin with `file/` since they are internal).
 
-It is important to note, that when including built-in resources in the list to be able to define an order, those resources are generally expected to be placed above vanilla assets to allow for mods to override those.
+It is important to note, that when including built-in resources in the list to be able to define an order, those resources must always be placed above vanilla assets to allow for mods to override those.
 
-As it's possible when resource pack reloading fails that the issue lies within the resource packs enabled by default, there is a maximum number of times the default resource packs list will be tried to be applied when recovering from a failed resource pack loading attempt. By default, this is 5 times and can be configured by setting the value `failed_reloads_per_session`. Example:
+As it's possible when resource pack reloading fails that the issue lies within the resource packs enabled by default, there is a maximum number of times applying the default resource packs list will be tried when recovering from a failed resource pack loading attempt. By default, this is 5 times and can be configured by setting the value `failed_reloads_per_session`. Example:
 
 ```json
 "failed_reloads_per_session": 5
 ```
 
 ### Overriding resource pack display attributes
-+ Compatibility with the current Minecraft version (including if a warning will display if the pack is selected)
-+ The pack is required and cannot be disabled once enabled (like the vanilla Minecraft assets pack)
-+ The pack has a fixed position in the list of enabled resource packs and cannot be moved up or down (although this functionality barely works in vanilla as other packs can still be moved up and down)
-+ The pack is hidden on the resource pack screen (useful for enabled packs the user is not supposed to be able to modify in any way)
-
 Display attribute overrides are configurable in two ways: One possibility is the `default_overrides` block that applies to all resource packs. Example: 
 ```json
 "default_overrides": {
@@ -67,14 +62,14 @@ A more specific way is the `pack_overrides` section where overrides are configur
 }
 ```
 
-Not all overrides must be defined every time. If absent, the default value will be used. Possible overrides include:
+Not all overrides must be defined every time. If absent, the default value will be used. All possible overrides include:
 
-| Attribute          | Description                                                                                                                                                                                             | Default Value |
-|--------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
-| `force_compatible` | Guarantees compatibility with the current Minecraft version, no longer shows a warning when an incompatible pack is selected. Pack adapters for legacy pack formats are still applied when selected.    | `false`       |
-| `fixed_position`   | The pack has a fixed position in the list of enabled resource packs and cannot be moved up or down (although this functionality barely works in vanilla as other packs can still be moved up and down). | `false`       |
-| `required`         | The pack is required and cannot be disabled once enabled (like the vanilla Minecraft assets pack).                                                                                                      | `false`       |
-| `hidden`           | The pack is hidden on the resource pack screen (useful for enabled packs the user is not supposed to be able to modify in any way).                                                                     | `false`       |
+| Attribute          | Description                                                                                                                                                                                          | Default Value |
+|--------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
+| `force_compatible` | Guarantees compatibility with the current Minecraft version, no longer shows a warning when an incompatible pack is selected. Pack adapters for legacy pack formats are still applied when selected. | `false`       |
+| `fixed_position`   | The pack has a fixed position in the list of enabled resource packs and cannot be moved up or down (might not always work).                                                                          | `false`       |
+| `required`         | The pack is required and cannot be disabled once enabled (like the vanilla assets pack).                                                                                                             | `false`       |
+| `hidden`           | The pack is hidden on the resource pack screen (useful for enabled packs the user is not supposed to be able to modify in any way).                                                                  | `false`       |
 
 ### Complete example
 `.minecraft/config/resourcepackoverrides.json`:
