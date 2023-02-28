@@ -2,7 +2,7 @@
 
 A Minecraft mod. Downloads can be found on [CurseForge](https://www.curseforge.com/members/fuzs_/projects) and [Modrinth](https://modrinth.com/user/Fuzs).
 
-![](https://i.imgur.com/4htIK3r.png)
+![](https://raw.githubusercontent.com/Fuzss/modresources/main/pages/data/resourcepackoverrides/banner.png)
 
 ## About the project
 Resource Pack Overrides exists to help mod pack makers with managing pre-installed resource packs. It is not intended to be used with data packs, effectively making it a client-only mod.
