@@ -43,7 +43,7 @@ public class ResourceOverridesManager {
         JsonObject jsonObject = GsonHelper.convertToJsonObject(jsonElement, "resource pack override");
         if (!GsonHelper.getAsString(jsonObject, "schema_version").equals(SCHEMA_VERSION)) throw new IllegalArgumentException("wrong config schema present");
         failedReloads = GsonHelper.getAsInt(jsonObject, "failed_reloads_per_session", 5);
-        if (jsonObject.has("default_resource_packs")) {
+        if (jsonObject.has("default_packs")) {
             JsonArray resourcePacks = jsonObject.getAsJsonArray("default_packs");
             ImmutableList.Builder<String> builder = ImmutableList.builder();
             for (JsonElement resourcePack : resourcePacks) {
