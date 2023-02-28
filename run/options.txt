@@ -1,4 +1,4 @@
-version:3120
+version:2975
 autoJump:true
 autoSuggestions:true
 chatColors:true
@@ -12,7 +12,6 @@ invertYMouse:false
 realmsNotifications:true
 reducedDebugInfo:false
 showSubtitles:false
-directionalAudio:false
 touchscreen:false
 fullscreen:false
 bobView:true
@@ -24,7 +23,6 @@ mouseSensitivity:0.5
 fov:0.0
 screenEffectScale:1.0
 fovEffectScale:1.0
-darknessEffectScale:1.0
 gamma:0.5
 renderDistance:12
 simulationDistance:12
@@ -32,16 +30,17 @@ entityDistanceScaling:1.0
 guiScale:0
 particles:0
 maxFps:120
+difficulty:2
 graphicsMode:1
 ao:2
 prioritizeChunkUpdates:0
 biomeBlendRadius:2
-renderClouds:"true"
-resourcePacks:["vanilla","file/Stay_True_1.19.zip","mod_resources","file/xali-s-Enchanted-Books-16x-v0.10.1.zip","file/Forbidden_GUI_Dakmode_v3.zip","file/Xaero\u0027s Minimap - Mod Icons.zip","file/NoBushyLeaves.zip"]
-incompatibleResourcePacks:["file/Xaero\u0027s Minimap - Mod Icons.zip","file/NoBushyLeaves.zip"]
+renderClouds:true
+resourcePacks:["vanilla","file/Stay_True_1.19.zip","file/xali-s-Enchanted-Books-16x-v0.10.1.zip","file/Forbidden_GUI_Dakmode_v3.zip","file/Xaero\u0027s Minimap - Mod Icons.zip","file/NoBushyLeaves.zip","Fabric Mods"]
+incompatibleResourcePacks:["file/Stay_True_1.19.zip","file/xali-s-Enchanted-Books-16x-v0.10.1.zip","file/Forbidden_GUI_Dakmode_v3.zip"]
 lastServer:
 lang:en_us
-soundDevice:""
+soundDevice:
 chatVisibility:0
 chatOpacity:1.0
 chatLineSpacing:0.0
@@ -55,12 +54,12 @@ overrideHeight:0
 heldItemTooltips:true
 chatHeightFocused:1.0
 chatDelay:0.0
-chatHeightUnfocused:0.4375
+chatHeightUnfocused:0.44366195797920227
 chatScale:1.0
 chatWidth:1.0
 mipmapLevels:4
 useNativeTransport:true
-mainHand:"right"
+mainHand:right
 attackIndicator:1
 narrator:0
 tutorialStep:movement
@@ -72,11 +71,9 @@ skipRealms32bitWarning:false
 hideMatchedNames:true
 joinedFirstServer:false
 hideBundleTutorial:false
-syncChunkWrites:false
+syncChunkWrites:true
 showAutosaveIndicator:true
 allowServerListing:true
-chatPreview:1
-onlyShowSecureChat:false
 key_key.attack:key.mouse.left
 key_key.use:key.mouse.right
 key_key.forward:key.keyboard.w
@@ -111,6 +108,7 @@ key_key.hotbar.6:key.keyboard.6
 key_key.hotbar.7:key.keyboard.7
 key_key.hotbar.8:key.keyboard.8
 key_key.hotbar.9:key.keyboard.9
+key_key.modmenu.open_menu:key.keyboard.unknown
 soundCategory_master:1.0
 soundCategory_music:1.0
 soundCategory_record:1.0
