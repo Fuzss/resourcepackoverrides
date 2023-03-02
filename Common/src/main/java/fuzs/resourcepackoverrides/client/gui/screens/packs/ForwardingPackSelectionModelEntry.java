@@ -1,6 +1,5 @@
 package fuzs.resourcepackoverrides.client.gui.screens.packs;
 
-import fuzs.resourcepackoverrides.client.data.PackSelectionOverride;
 import net.minecraft.client.gui.screens.packs.PackSelectionModel;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -11,12 +10,10 @@ import net.minecraft.server.packs.repository.PackSource;
 public class ForwardingPackSelectionModelEntry implements PackSelectionModel.Entry, PackAwareSelectionEntry {
     private final Pack pack;
     private final PackSelectionModel.Entry other;
-    private final PackSelectionOverride override;
 
-    public ForwardingPackSelectionModelEntry(Pack pack, PackSelectionModel.Entry other, PackSelectionOverride override) {
+    public ForwardingPackSelectionModelEntry(Pack pack, PackSelectionModel.Entry other) {
         this.pack = pack;
         this.other = other;
-        this.override = override;
     }
 
     @Override
@@ -31,9 +28,6 @@ public class ForwardingPackSelectionModelEntry implements PackSelectionModel.Ent
 
     @Override
     public PackCompatibility getCompatibility() {
-        if (this.override.forceCompatible()) {
-            return PackCompatibility.COMPATIBLE;
-        }
         return this.other.getCompatibility();
     }
 
@@ -54,12 +48,12 @@ public class ForwardingPackSelectionModelEntry implements PackSelectionModel.Ent
 
     @Override
     public boolean isFixedPosition() {
-        return this.override.fixedPosition() || this.other.isFixedPosition();
+        return this.other.isFixedPosition();
     }
 
     @Override
     public boolean isRequired() {
-        return this.override.required() || this.other.isRequired();
+        return this.other.isRequired();
     }
 
     @Override
