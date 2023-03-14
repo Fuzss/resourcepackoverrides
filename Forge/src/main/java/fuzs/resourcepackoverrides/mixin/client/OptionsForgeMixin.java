@@ -22,7 +22,7 @@ abstract class OptionsForgeMixin {
     @Unique
     private boolean resourcePackOverrides$wasEmpty;
 
-    @Inject(method = "load", at = @At("RETURN"), remap = false)
+    @Inject(method = "load", at = @At("RETURN"))
     private void load(CallbackInfo callback) {
         // Add built-in resource packs if they are enabled by default only if the options file is blank.
         if (this.resourcePacks.isEmpty()) {

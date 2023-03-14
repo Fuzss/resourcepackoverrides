@@ -6,11 +6,17 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import fuzs.resourcepackoverrides.ResourcePackOverrides;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.packs.repository.Pack;
+import net.minecraft.server.packs.repository.PackCompatibility;
 import net.minecraft.util.GsonHelper;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.FileReader;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.function.Function;
 
 public class ResourceOverridesManager {
     private static final String FILE_NAME = ResourcePackOverrides.MOD_ID + ".json";
@@ -19,6 +25,7 @@ public class ResourceOverridesManager {
     private static List<String> defaultResourcePacks;
     private static PackSelectionOverride defaultOverride;
     private static int failedReloads;
+    public static boolean debugTooltips;
 
     public static PackSelectionOverride getOverride(String id) {
         if (defaultOverride == null) load();
@@ -51,6 +58,7 @@ public class ResourceOverridesManager {
             }
             defaultResourcePacks = builder.build();
         }
+        debugTooltips = GsonHelper.getAsBoolean(jsonObject, "debug_tooltips", false);
         if (jsonObject.has("default_overrides")) {
             defaultOverride = deserializeOverrideEntry(jsonObject.get("default_overrides"));
         }
@@ -63,10 +71,29 @@ public class ResourceOverridesManager {
 
     private static PackSelectionOverride deserializeOverrideEntry(JsonElement jsonElement) {
         JsonObject jsonObject = GsonHelper.convertToJsonObject(jsonElement, "resource pack override");
-        boolean forceCompatible = GsonHelper.getAsBoolean(jsonObject, "force_compatible", false);
-        boolean fixedPosition = GsonHelper.getAsBoolean(jsonObject, "fixed_position", false);
-        boolean required = GsonHelper.getAsBoolean(jsonObject, "required", false);
-        boolean hidden = GsonHelper.getAsBoolean(jsonObject, "hidden", false);
-        return new PackSelectionOverride(forceCompatible, fixedPosition, required, hidden);
+        Component title = getOptionalString(jsonObject, "title", Component.Serializer::fromJson);
+        Component description = getOptionalString(jsonObject, "description", Component.Serializer::fromJson);
+        Pack.Position defaultPosition = getOptionalString(jsonObject, "default_position", s -> {
+            try {
+                return Pack.Position.valueOf(s.toUpperCase(Locale.ROOT));
+            } catch (Exception ignored) {
+                return null;
+            }
+        });
+        PackCompatibility compatible = GsonHelper.getAsBoolean(jsonObject, "force_compatible", false) ? PackCompatibility.COMPATIBLE : null;
+        Boolean fixedPosition = getOptionalFlag(jsonObject, "fixed_position");
+        Boolean required = GsonHelper.getAsBoolean(jsonObject, "required", false) ? true : null;
+        Boolean hidden = GsonHelper.getAsBoolean(jsonObject, "hidden", false) ? true : null;
+        return new PackSelectionOverride(title, description, defaultPosition, compatible, fixedPosition, required, hidden);
+    }
+
+    @Nullable
+    private static <T> T getOptionalString(JsonObject jsonObject, String memberName, Function<String, T> converter) {
+        return jsonObject.has(memberName) ? converter.apply(GsonHelper.getAsString(jsonObject, memberName)) : null;
+    }
+
+    @Nullable
+    private static Boolean getOptionalFlag(JsonObject jsonObject, String memberName) {
+        return jsonObject.has(memberName) ? jsonObject.get(memberName).getAsBoolean() : null;
     }
 }

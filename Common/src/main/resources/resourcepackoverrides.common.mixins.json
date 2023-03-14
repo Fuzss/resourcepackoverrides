@@ -7,9 +7,11 @@
   "mixins": [
   ],
   "client": [
+    "client.MinecraftMixin",
+    "client.PackEntryMixin",
+    "client.PackRepositoryMixin",
     "client.PackSelectionModelMixin",
-    "client.PackSelectionScreenMixin",
-    "client.MinecraftMixin"
+    "client.PackSelectionScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
