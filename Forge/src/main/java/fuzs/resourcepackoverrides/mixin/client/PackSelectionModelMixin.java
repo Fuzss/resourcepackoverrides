@@ -1,6 +1,5 @@
 package fuzs.resourcepackoverrides.mixin.client;
 
-import fuzs.resourcepackoverrides.client.data.ResourceOverridesManager;
 import fuzs.resourcepackoverrides.client.gui.screens.packs.ForwardingPackSelectionModelEntry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.PackLoadingManager;
@@ -23,6 +22,6 @@ abstract class PackSelectionModelMixin {
     public void getSelected(ResourcePackInfo pack, CallbackInfoReturnable<PackLoadingManager.IPack> callback) {
         // Wrap only on resource pack selection screen, we don't want to mess with data packs.
         if (this.repository != Minecraft.getInstance().getResourcePackRepository()) return;
-        callback.setReturnValue(new ForwardingPackSelectionModelEntry(pack, callback.getReturnValue(), ResourceOverridesManager.getOverride(pack.getId())));
+        callback.setReturnValue(new ForwardingPackSelectionModelEntry(pack, callback.getReturnValue()));
     }
 }

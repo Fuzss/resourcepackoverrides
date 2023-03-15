@@ -1,6 +1,5 @@
 package fuzs.resourcepackoverrides.client.gui.screens.packs;
 
-import fuzs.resourcepackoverrides.client.data.PackSelectionOverride;
 import net.minecraft.client.gui.screen.PackLoadingManager;
 import net.minecraft.resources.IPackNameDecorator;
 import net.minecraft.resources.PackCompatibility;
@@ -11,12 +10,10 @@ import net.minecraft.util.text.ITextComponent;
 public class ForwardingPackSelectionModelEntry implements PackLoadingManager.IPack, PackAwareSelectionEntry {
     private final ResourcePackInfo pack;
     private final PackLoadingManager.IPack other;
-    private final PackSelectionOverride override;
 
-    public ForwardingPackSelectionModelEntry(ResourcePackInfo pack, PackLoadingManager.IPack other, PackSelectionOverride override) {
+    public ForwardingPackSelectionModelEntry(ResourcePackInfo pack, PackLoadingManager.IPack other) {
         this.pack = pack;
         this.other = other;
-        this.override = override;
     }
 
     @Override
@@ -31,9 +28,6 @@ public class ForwardingPackSelectionModelEntry implements PackLoadingManager.IPa
 
     @Override
     public PackCompatibility getCompatibility() {
-        if (this.override.forceCompatible()) {
-            return PackCompatibility.COMPATIBLE;
-        }
         return this.other.getCompatibility();
     }
 
@@ -54,12 +48,12 @@ public class ForwardingPackSelectionModelEntry implements PackLoadingManager.IPa
 
     @Override
     public boolean isFixedPosition() {
-        return this.override.fixedPosition() || this.other.isFixedPosition();
+        return this.other.isFixedPosition();
     }
 
     @Override
     public boolean isRequired() {
-        return this.override.required() || this.other.isRequired();
+        return this.other.isRequired();
     }
 
     @Override

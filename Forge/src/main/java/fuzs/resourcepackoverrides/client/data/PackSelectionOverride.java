@@ -1,60 +1,78 @@
 package fuzs.resourcepackoverrides.client.data;
 
+import net.minecraft.resources.PackCompatibility;
+import net.minecraft.resources.ResourcePackInfo;
+import net.minecraft.util.text.ITextComponent;
+
+import javax.annotation.Nullable;
 import java.util.Objects;
 
 public final class PackSelectionOverride {
-    private final boolean forceCompatible;
-    private final boolean fixedPosition;
-    private final boolean required;
-    private final boolean hidden;
+    public static final PackSelectionOverride EMPTY = new PackSelectionOverride(null, null, null, null, null, null, null);
 
-    PackSelectionOverride(boolean forceCompatible, boolean fixedPosition, boolean required, boolean hidden) {
-        this.forceCompatible = forceCompatible;
+    private final @Nullable ITextComponent title;
+    private final @Nullable ITextComponent description;
+    private final @Nullable ResourcePackInfo.Priority defaultPosition;
+    private final @Nullable PackCompatibility compatibility;
+    private final @Nullable Boolean fixedPosition;
+    private final @Nullable Boolean required;
+    private final @Nullable Boolean hidden;
+
+    public PackSelectionOverride(@Nullable ITextComponent title, @Nullable ITextComponent description,
+                                 @Nullable ResourcePackInfo.Priority defaultPosition, @Nullable PackCompatibility compatibility,
+                                 @Nullable Boolean fixedPosition, @Nullable Boolean required,
+                                 @Nullable Boolean hidden) {
+        this.title = title;
+        this.description = description;
+        this.defaultPosition = defaultPosition;
+        this.compatibility = compatibility;
         this.fixedPosition = fixedPosition;
         this.required = required;
         this.hidden = hidden;
     }
 
-    public boolean forceCompatible() {
-        return forceCompatible;
+    public @Nullable ITextComponent title() {
+        return title;
     }
 
-    public boolean fixedPosition() {
+    public @Nullable ITextComponent description() {
+        return description;
+    }
+
+    public @Nullable ResourcePackInfo.Priority defaultPosition() {
+        return defaultPosition;
+    }
+
+    public @Nullable PackCompatibility compatibility() {
+        return compatibility;
+    }
+
+    public @Nullable Boolean fixedPosition() {
         return fixedPosition;
     }
 
-    public boolean required() {
+    public @Nullable Boolean required() {
         return required;
     }
 
-    public boolean hidden() {
+    public @Nullable Boolean hidden() {
         return hidden;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == this) return true;
-        if (obj == null || obj.getClass() != this.getClass()) return false;
-        PackSelectionOverride that = (PackSelectionOverride) obj;
-        return this.forceCompatible == that.forceCompatible &&
-                this.fixedPosition == that.fixedPosition &&
-                this.required == that.required &&
-                this.hidden == that.hidden;
-    }
-
-    @Override
     public int hashCode() {
-        return Objects.hash(forceCompatible, fixedPosition, required, hidden);
+        return Objects.hash(title, description, defaultPosition, compatibility, fixedPosition, required, hidden);
     }
 
     @Override
     public String toString() {
         return "PackSelectionOverride[" +
-                "forceCompatible=" + forceCompatible + ", " +
+                "title=" + title + ", " +
+                "description=" + description + ", " +
+                "defaultPosition=" + defaultPosition + ", " +
+                "compatibility=" + compatibility + ", " +
                 "fixedPosition=" + fixedPosition + ", " +
                 "required=" + required + ", " +
                 "hidden=" + hidden + ']';
     }
-
-    public static final PackSelectionOverride EMPTY = new PackSelectionOverride(false, false, false, false);
 }

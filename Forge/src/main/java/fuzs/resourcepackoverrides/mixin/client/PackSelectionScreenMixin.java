@@ -1,5 +1,6 @@
 package fuzs.resourcepackoverrides.mixin.client;
 
+import fuzs.resourcepackoverrides.client.data.PackSelectionOverride;
 import fuzs.resourcepackoverrides.client.data.ResourceOverridesManager;
 import fuzs.resourcepackoverrides.client.gui.screens.packs.PackAwareSelectionEntry;
 import net.minecraft.client.gui.screen.PackLoadingManager;
@@ -22,6 +23,12 @@ abstract class PackSelectionScreenMixin extends Screen {
     @ModifyVariable(method = "updateList", at = @At("HEAD"))
     private Stream<PackLoadingManager.IPack> updateList(Stream<PackLoadingManager.IPack> models) {
         // This also runs on the data packs screen, but that's fine since the entries are not wrapped there.
-        return models.filter(entry -> !(entry instanceof PackAwareSelectionEntry) || !ResourceOverridesManager.getOverride(((PackAwareSelectionEntry) entry).getPackId()).hidden());
+        return models.filter(entry -> {
+            if (!(entry instanceof PackAwareSelectionEntry)) {
+                return true;
+            }
+            PackSelectionOverride override = ResourceOverridesManager.getOverride(((PackAwareSelectionEntry) entry).getPackId());
+            return override.hidden() == null || !override.hidden();
+        });
     }
 }
