@@ -68,6 +68,8 @@ As it's possible when resource pack reloading fails that the issue lies within t
 ```
 
 ### Overriding resource pack display attributes
+
+#### Default overrides
 Display attribute overrides are configurable in two ways: One possibility is the `default_overrides` block that applies to all resource packs. Example: 
 ```json
 "default_overrides": {
@@ -75,6 +77,7 @@ Display attribute overrides are configurable in two ways: One possibility is the
 }
 ```
 
+#### Per-pack overrides
 A more specific way is the `pack_overrides` section where overrides are configured per individual pack taking precedence over the default block. Example:
 ```json
 "pack_overrides": {
@@ -96,6 +99,7 @@ All overrides are optional and therefore must not be defined for every pack. If 
 | `required`         | The pack is required and cannot be disabled once enabled (like the vanilla assets pack).                                                                                                                              | `true`                 |
 | `hidden`           | The pack is hidden on the resource pack screen (useful for enabled packs the user is not supposed to be able to modify in any way).                                                                                   | `true`                 |
 
+#### Per-pack override groups
 To help with defining the same set of override attributes for multiple packs, the `pack_overrides` section supports defining and using groups. Groups are included as JSON arrays and are referenced just like other packs, but starting with `$`. Example:
 ```json5
 "pack_overrides": {
