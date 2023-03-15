@@ -72,7 +72,7 @@ public class PackActionsHandler {
             if (guiEventListener instanceof ObjectSelectionList<?> selectionList) {
                 if (((AbstractSelectionListAccessor<?>) selectionList).resourcepackoverrides$callGetHovered() instanceof TransferableSelectionList.PackEntry entry) {
                     if (((PackEntryAccessor) entry).resourcepackoverrides$getPack() instanceof PackAwareSelectionEntry selectionEntry) {
-                        return Optional.of(selectionEntry.getPackId());
+                        return Optional.of(selectionEntry.getPackId().replace("§", "\\u00A7"));
                     }
                 }
             }
