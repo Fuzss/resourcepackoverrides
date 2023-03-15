@@ -12,7 +12,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.client.gui.components.events.GuiEventListener;
-import net.minecraft.client.gui.components.toasts.SystemToast;
 import net.minecraft.client.gui.components.toasts.TutorialToast;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.packs.TransferableSelectionList;
@@ -22,30 +21,37 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public class PackIdTooltipHandler {
+public class PackActionsHandler {
+    private static final Int2ObjectMap<PackAction> PACK_ACTIONS = new Int2ObjectOpenHashMap<>();
     private static boolean debugTooltips;
-    private static final Int2ObjectMap<PackSelectionScreenAction> ACTIONS = new Int2ObjectOpenHashMap<>();
 
     static {
-        ACTIONS.put(InputConstants.KEY_C, new PackSelectionScreenAction(Component.translatable("packAction.copyId.title"), Component.translatable("packAction.copyId.description", Component.literal("C").withStyle(ChatFormatting.BOLD)), Component.translatable("packAction.copyId.success")) {
+        PACK_ACTIONS.put(InputConstants.KEY_C, new PackAction(Component.translatable("packAction.copyId.title"), Component.translatable("packAction.copyId.description", Component.literal("C").withStyle(ChatFormatting.BOLD)), Component.translatable("packAction.copyId.success")) {
 
             @Override
-            void execute(Minecraft minecraft) {
-                getHoveredPackId(minecraft.screen).ifPresent(minecraft.keyboardHandler::setClipboard);
+            boolean execute(Minecraft minecraft) {
+                Optional<String> hoveredPackId = getHoveredPackId(minecraft.screen);
+                hoveredPackId.ifPresent(minecraft.keyboardHandler::setClipboard);
+                return hoveredPackId.isPresent();
             }
         });
-        ACTIONS.put(InputConstants.KEY_D, new PackSelectionScreenAction(Component.translatable("packAction.toggleDebug.title"), Component.translatable("packAction.toggleDebug.description", Component.literal("D").withStyle(ChatFormatting.BOLD)), Component.translatable("packAction.toggleDebug.success")) {
+        PACK_ACTIONS.put(InputConstants.KEY_D, new PackAction(Component.translatable("packAction.toggleDebug.title"), Component.translatable("packAction.toggleDebug.description", Component.literal("D").withStyle(ChatFormatting.BOLD)), Component.translatable("packAction.toggleDebug.success")) {
 
             @Override
-            void execute(Minecraft minecraft) {
+            boolean execute(Minecraft minecraft) {
                 debugTooltips = !debugTooltips;
+                return true;
             }
         });
-        ACTIONS.put(InputConstants.KEY_R, new PackSelectionScreenAction(Component.translatable("packAction.reloadSettings.title"), Component.translatable("packAction.reloadSettings.description", Component.literal("R").withStyle(ChatFormatting.BOLD)), Component.translatable("packAction.reloadSettings.success")) {
+        PACK_ACTIONS.put(InputConstants.KEY_R, new PackAction(Component.translatable("packAction.reloadSettings.title"), Component.translatable("packAction.reloadSettings.description", Component.literal("R").withStyle(ChatFormatting.BOLD)), Component.translatable("packAction.reloadSettings.success")) {
 
             @Override
-            void execute(Minecraft minecraft) {
+            boolean execute(Minecraft minecraft) {
                 ResourceOverridesManager.load();
+                if (minecraft.screen != null) {
+                    minecraft.screen.init(minecraft, minecraft.getWindow().getGuiScaledWidth(), minecraft.getWindow().getGuiScaledHeight());
+                }
+                return true;
             }
         });
     }
@@ -73,37 +79,42 @@ public class PackIdTooltipHandler {
     }
 
     public static void onClientTick$End(Minecraft minecraft) {
-        ACTIONS.values().forEach(action -> action.tick(minecraft));
+        PACK_ACTIONS.values().forEach(action -> action.tick(minecraft));
     }
 
     public static void onKeyPressed$Post(Screen screen, int keyCode, int scanCode, int modifiers) {
-        PackSelectionScreenAction packSelectionScreenAction = ACTIONS.get(keyCode);
-        if (packSelectionScreenAction != null) packSelectionScreenAction.update();
+        PackAction packAction = PACK_ACTIONS.get(keyCode);
+        if (packAction != null) packAction.update();
     }
 
-    private static abstract class PackSelectionScreenAction {
+    private static abstract class PackAction {
         private final Component title;
         private final Component description;
         private final Component success;
         @Nullable
         private TutorialToast toast;
+        @Nullable
+        private TutorialToast successToast;
+        private int successTicks;
         private int pressTime;
         private int lastPressTime;
         private int decreaseTimeDelay;
         private boolean wasExecuted;
 
-        public PackSelectionScreenAction(Component title, Component description, Component success) {
+        public PackAction(Component title, Component description, Component success) {
             this.title = title;
             this.description = description;
             this.success = success;
         }
 
         public void tick(Minecraft minecraft) {
-            if (this.pressTime == this.lastPressTime && this.pressTime > 0 && --this.decreaseTimeDelay < 0) {
-                if (this.wasExecuted) {
-                    this.reset();
-                } else {
-                    this.pressTime--;
+            if (this.pressTime == this.lastPressTime && this.pressTime > 0) {
+                if (--this.decreaseTimeDelay < 0) {
+                    if (this.wasExecuted) {
+                        this.reset();
+                    } else {
+                        this.pressTime--;
+                    }
                 }
             }
             this.lastPressTime = this.pressTime;
@@ -115,12 +126,21 @@ public class PackIdTooltipHandler {
                 if (this.pressTime < 20) {
                     this.toast.updateProgress(Mth.clamp(this.pressTime / 20.0F, 0.0F, 1.0F));
                 } else if (!this.wasExecuted) {
-                    this.execute(minecraft);
+                    if (this.execute(minecraft)) {
+                        this.finish(minecraft);
+                    }
                     this.wasExecuted = true;
                     this.toast.updateProgress(1.0F);
-                    // SystemToastIds is an enum, but SystemToastIds#TUTORIAL_HINT is unused, also just responsible for controlling amount of display ticks
-                    SystemToast.addOrUpdate(minecraft.getToasts(), SystemToast.SystemToastIds.TUTORIAL_HINT, this.success, null);
                 }
+            } else {
+                this.reset();
+            }
+            if (this.successTicks > 0) {
+                this.successTicks--;
+                this.successToast.updateProgress(this.successTicks / 80.0F);
+            } else if (this.successToast != null) {
+                this.successToast.hide();
+                this.successToast = null;
             }
         }
 
@@ -133,7 +153,15 @@ public class PackIdTooltipHandler {
             this.wasExecuted = false;
         }
 
-        abstract void execute(Minecraft minecraft);
+        abstract boolean execute(Minecraft minecraft);
+
+        private void finish(Minecraft minecraft) {
+            if (this.successToast != null) this.successToast.hide();
+            this.successToast = new TutorialToast(TutorialToast.Icons.MOVEMENT_KEYS, this.title, this.success, true);
+            minecraft.getToasts().addToast(this.successToast);
+            this.successTicks = 80;
+            this.successToast.updateProgress(1.0F);
+        }
 
         public void update() {
             this.pressTime++;
@@ -141,7 +169,8 @@ public class PackIdTooltipHandler {
         }
 
         public void resetDelay() {
-            this.decreaseTimeDelay = 5;
+            // this high of a delay is necessary as for some reason the key takes a few ticks until it reports as pressed again after the initial press
+            this.decreaseTimeDelay = 10;
         }
     }
 }

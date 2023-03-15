@@ -11,14 +11,14 @@ public class ModLanguageProvider extends LanguageProvider {
 
     @Override
     protected void addTranslations() {
-        this.add("packAction.copyId.title", "Copying Pack Id...");
-        this.add("packAction.copyId.description", "Continue hold %s to copy");
-        this.add("packAction.copyId.success", "Copied pack id to clipboard!");
-        this.add("packAction.reloadSettings.title", "Reloading Settings...");
-        this.add("packAction.reloadSettings.description", "Continue hold %s to reload");
-        this.add("packAction.reloadSettings.success", "Reloaded settings!");
-        this.add("packAction.toggleDebug.title", "Toggling Pack Ids...");
-        this.add("packAction.toggleDebug.description", "Continue hold %s to toggle");
-        this.add("packAction.toggleDebug.success", "Toggled pack ids!");
+        this.add("packAction.copyId.title", "Copy Pack Id");
+        this.add("packAction.copyId.description", "Hold %s to copy");
+        this.add("packAction.copyId.success", "Copied!");
+        this.add("packAction.reloadSettings.title", "Reload Settings");
+        this.add("packAction.reloadSettings.description", "Hold %s to reload");
+        this.add("packAction.reloadSettings.success", "Reloaded!");
+        this.add("packAction.toggleDebug.title", "Toggle Pack Ids");
+        this.add("packAction.toggleDebug.description", "Hold %s to toggle");
+        this.add("packAction.toggleDebug.success", "Toggled!");
     }
 }

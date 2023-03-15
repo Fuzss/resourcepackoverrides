@@ -62,31 +62,32 @@ public class ResourceOverridesManager {
             defaultOverride = deserializeOverrideEntry(jsonObject.get("default_overrides"));
         }
         if (!jsonObject.has("pack_overrides")) return;
+        Map<String, PackSelectionOverride> packOverrides = Maps.newHashMap();
         Map<String, List<String>> overrideGroups = Maps.newHashMap();
-        if (jsonObject.has("pack_override_groups")) {
-            JsonObject groups = jsonObject.getAsJsonObject("pack_override_groups");
-            for (Map.Entry<String, JsonElement> entry : groups.entrySet()) {
+        JsonObject overrides = jsonObject.getAsJsonObject("pack_overrides");
+        for (Map.Entry<String, JsonElement> entry : overrides.entrySet()) {
+            JsonElement packOverride = entry.getValue();
+            if (packOverride.isJsonObject()) {
+                packOverrides.put(entry.getKey(), deserializeOverrideEntry(packOverride));
+            } else if (packOverride.isJsonArray()) {
                 JsonArray jsonArray = GsonHelper.convertToJsonArray(entry.getValue(), entry.getKey());
                 List<String> groupIds = overrideGroups.computeIfAbsent(entry.getKey(), id -> Lists.newArrayList());
-                for (JsonElement element : jsonArray) {
-                    groupIds.add(element.getAsString());
+                for (JsonElement groupValue : jsonArray) {
+                    groupIds.add(groupValue.getAsString());
                 }
             }
         }
         ImmutableMap.Builder<String, PackSelectionOverride> builder = ImmutableMap.builder();
-        JsonObject overrides = jsonObject.getAsJsonObject("pack_overrides");
-        for (Map.Entry<String, JsonElement> entry : overrides.entrySet()) {
-            JsonElement jsonElement1 = entry.getValue();
-            PackSelectionOverride overrideEntry = deserializeOverrideEntry(jsonElement1);
+        for (Map.Entry<String, PackSelectionOverride> entry : packOverrides.entrySet()) {
             String id = entry.getKey();
             if (id.startsWith("$")) {
                 List<String> groupIds = overrideGroups.get(id.substring(1));
                 if (groupIds == null) throw new IllegalArgumentException("Unknown group id %s".formatted(id));
                 for (String groupId : groupIds) {
-                    builder.put(groupId, overrideEntry);
+                    builder.put(groupId, entry.getValue());
                 }
             } else {
-                builder.put(id, overrideEntry);
+                builder.put(id, entry.getValue());
             }
         }
         overridesById = builder.build();

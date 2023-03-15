@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog].
 - Added support for defining groups to the `pack_overrides` section 
 - Added debug keys to the resource packs selection screen
   - Hold `R` to reload the config
-  - Hold `D` to toggle debug mode, which shows internal pack ids for the hovered resource pack entry
+  - Hold `D` to toggle showing internal pack ids for the hovered resource pack entry
   - Hold `C` to copy the hovered resource pack id to the clipboard
 
 ## [v4.0.2-1.19.2] - 2023-03-02
