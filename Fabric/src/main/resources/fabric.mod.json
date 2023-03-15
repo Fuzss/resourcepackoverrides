@@ -22,6 +22,7 @@
     "main": [
     ],
     "client": [
+      "${clientEntryPoint}"
     ]
   },
   "mixins": [
@@ -31,6 +32,7 @@
 
   "depends": {
     "fabricloader": ">=${minFabricVersion}",
+    "fabric-api": ">=${minFabricApiVersion}",
     "minecraft": ">=${minMinecraftVersion} <${nextMinecraftVersion}",
     "java": ">=17"
   },
