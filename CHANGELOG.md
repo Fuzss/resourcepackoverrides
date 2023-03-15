@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog].
 
+## [v4.0.4-1.19.2] - 2023-03-15
+### Fixed
+- Fixed an issue with resource pack ids containing chat formatting codes
+
 ## [v4.0.3-1.19.2] - 2023-03-15
 ### Added
 - Added support for defining groups to the `pack_overrides` section 
