@@ -1,6 +1,7 @@
 package fuzs.resourcepackoverrides.client.data;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -10,6 +11,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackCompatibility;
 import net.minecraft.util.GsonHelper;
+import org.apache.commons.compress.utils.Lists;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.FileReader;
@@ -21,15 +23,14 @@ import java.util.function.Function;
 public class ResourceOverridesManager {
     private static final String FILE_NAME = ResourcePackOverrides.MOD_ID + ".json";
     private static final String SCHEMA_VERSION = String.valueOf(1);
-    private static final Map<String, PackSelectionOverride> OVERRIDES_BY_ID = Maps.newHashMap();
+    private static Map<String, PackSelectionOverride> overridesById = Maps.newHashMap();
     private static List<String> defaultResourcePacks;
     private static PackSelectionOverride defaultOverride;
     private static int failedReloads;
-    public static boolean debugTooltips;
 
     public static PackSelectionOverride getOverride(String id) {
         if (defaultOverride == null) load();
-        return OVERRIDES_BY_ID.getOrDefault(id, defaultOverride);
+        return overridesById.getOrDefault(id, defaultOverride);
     }
 
     public static List<String> getDefaultResourcePacks(boolean failed) {
@@ -38,14 +39,13 @@ public class ResourceOverridesManager {
         return defaultResourcePacks;
     }
 
-    private static void load() {
+    public static void load() {
         defaultResourcePacks = ImmutableList.of();
         defaultOverride = PackSelectionOverride.EMPTY;
         JsonConfigFileUtil.getAndLoad(FILE_NAME, file -> {}, ResourceOverridesManager::deserializeAllOverrides);
     }
 
     private static void deserializeAllOverrides(FileReader reader) {
-        OVERRIDES_BY_ID.clear();
         JsonElement jsonElement = JsonConfigFileUtil.GSON.fromJson(reader, JsonElement.class);
         JsonObject jsonObject = GsonHelper.convertToJsonObject(jsonElement, "resource pack override");
         if (!GsonHelper.getAsString(jsonObject, "schema_version").equals(SCHEMA_VERSION)) throw new IllegalArgumentException("wrong config schema present");
@@ -58,15 +58,39 @@ public class ResourceOverridesManager {
             }
             defaultResourcePacks = builder.build();
         }
-        debugTooltips = GsonHelper.getAsBoolean(jsonObject, "debug_tooltips", false);
         if (jsonObject.has("default_overrides")) {
             defaultOverride = deserializeOverrideEntry(jsonObject.get("default_overrides"));
         }
         if (!jsonObject.has("pack_overrides")) return;
+        Map<String, PackSelectionOverride> packOverrides = Maps.newHashMap();
+        Map<String, List<String>> overrideGroups = Maps.newHashMap();
         JsonObject overrides = jsonObject.getAsJsonObject("pack_overrides");
         for (Map.Entry<String, JsonElement> entry : overrides.entrySet()) {
-            OVERRIDES_BY_ID.put(entry.getKey(), deserializeOverrideEntry(entry.getValue()));
+            JsonElement packOverride = entry.getValue();
+            if (packOverride.isJsonObject()) {
+                packOverrides.put(entry.getKey(), deserializeOverrideEntry(packOverride));
+            } else if (packOverride.isJsonArray()) {
+                JsonArray jsonArray = GsonHelper.convertToJsonArray(entry.getValue(), entry.getKey());
+                List<String> groupIds = overrideGroups.computeIfAbsent(entry.getKey(), id -> Lists.newArrayList());
+                for (JsonElement groupValue : jsonArray) {
+                    groupIds.add(groupValue.getAsString());
+                }
+            }
         }
+        ImmutableMap.Builder<String, PackSelectionOverride> builder = ImmutableMap.builder();
+        for (Map.Entry<String, PackSelectionOverride> entry : packOverrides.entrySet()) {
+            String id = entry.getKey();
+            if (id.startsWith("$")) {
+                List<String> groupIds = overrideGroups.get(id.substring(1));
+                if (groupIds == null) throw new IllegalArgumentException("Unknown group id %s".formatted(id));
+                for (String groupId : groupIds) {
+                    builder.put(groupId, entry.getValue());
+                }
+            } else {
+                builder.put(id, entry.getValue());
+            }
+        }
+        overridesById = builder.build();
     }
 
     private static PackSelectionOverride deserializeOverrideEntry(JsonElement jsonElement) {

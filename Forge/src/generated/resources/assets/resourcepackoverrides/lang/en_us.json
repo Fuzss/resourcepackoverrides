@@ -1,0 +1,11 @@
+{
+  "packAction.copyId.description": "Hold %s to copy",
+  "packAction.copyId.success": "Copied!",
+  "packAction.copyId.title": "Copy Pack Id",
+  "packAction.reloadSettings.description": "Hold %s to reload",
+  "packAction.reloadSettings.success": "Reloaded!",
+  "packAction.reloadSettings.title": "Reload Settings",
+  "packAction.toggleDebug.description": "Hold %s to toggle",
+  "packAction.toggleDebug.success": "Toggled!",
+  "packAction.toggleDebug.title": "Toggle Pack Ids"
+}

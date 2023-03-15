@@ -8,10 +8,11 @@
   ],
   "client": [
     "client.MinecraftMixin",
-    "client.PackEntryMixin",
     "client.PackRepositoryMixin",
     "client.PackSelectionModelMixin",
-    "client.PackSelectionScreenMixin"
+    "client.PackSelectionScreenMixin",
+    "client.accessor.AbstractSelectionListAccessor",
+    "client.accessor.PackEntryAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog].
 
+## [v3.0.2-1.18.2] - 2023-03-15
+### Added
+- Added support for defining groups to the `pack_overrides` section
+- Added debug keys to the resource packs selection screen
+    - Hold `R` to reload the config
+    - Hold `D` to toggle showing internal pack ids for the hovered resource pack entry
+    - Hold `C` to copy the hovered resource pack id to the clipboard
+
 ## [v3.0.1-1.18.2] - 2023-03-14
 ### Added
 - Additional resource pack attributes for overriding: `title`, `description`, `default_position`

@@ -44,7 +44,7 @@ dependencies {
 
     // Fabric
     modImplementation "net.fabricmc:fabric-loader:${fabricVersion}"
-//    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabricApiVersion}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabricApiVersion}"
 
     // Quality of Life Mods
     modRuntimeOnly "com.terraformersmc:modmenu:3.2.4"
@@ -225,7 +225,7 @@ curseforge {
         mainArtifact(remapJar) {
             displayName = "[FABRIC] [${minecraftVersion}] ${rootProject.name}-v${modVersion}"
             relations {
-//                requiredDependency 'fabric-api'
+                requiredDependency 'fabric-api'
 //                requiredDependency 'forge-config-api-port-fabric'
 //                requiredDependency 'puzzles-lib'
                 incompatible 'servercore'
@@ -255,7 +255,7 @@ modrinth {
     loaders.add 'fabric'
 //    additionalFiles.add file("${project.buildDir}/libs/${project.archivesBaseName}-${project.version}-sources.jar")
     dependencies {
-//        required.project 'fabric-api'
+        required.project 'fabric-api'
 //        required.project 'forge-config-api-port'
 //        required.project 'puzzles-lib'
         incompatible.project 'servercore'

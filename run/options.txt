@@ -36,7 +36,7 @@ ao:2
 prioritizeChunkUpdates:0
 biomeBlendRadius:2
 renderClouds:true
-resourcePacks:["vanilla","file/Stay_True_1.19.zip","file/xali-s-Enchanted-Books-16x-v0.10.1.zip","file/Forbidden_GUI_Dakmode_v3.zip","file/Xaero\u0027s Minimap - Mod Icons.zip","file/NoBushyLeaves.zip","Fabric Mods"]
+resourcePacks:["vanilla","Fabric Mods"]
 incompatibleResourcePacks:["file/Stay_True_1.19.zip","file/xali-s-Enchanted-Books-16x-v0.10.1.zip","file/Forbidden_GUI_Dakmode_v3.zip"]
 lastServer:
 lang:en_us
