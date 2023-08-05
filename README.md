@@ -23,7 +23,7 @@ Resource Pack Overrides has two main features which can be managed in the mentio
 Resource packs are referenced via their internal id. Ids for built-in packs are:
 + `vanilla` for Minecraft's default resources
 + `mod_resources` for the Mod Resources pack on Forge
-+ `Fabric Mods` for the Fabric Mods pack on Forge
++ `fabric` for the Fabric Mods pack on Fabric (formerly `Fabric Mods`)
 + `server` for a downloaded resource pack provided by a server while logged in
 + `world` for a resource pack bundled with the currently played single-player world
 + `programer_art` for the built-in Programmer Art pack (note the id only has a single "m" char)
@@ -57,7 +57,7 @@ The default resource pack list is included in the config file as a JSON array la
 
 The list is applied in reverse, meaning one resource pack placed above another will appear below that other pack in the resource pack selection screen. 
 
-Only external resource packs from `.minecraft/resourcepacks` must be included in the list, built-in resource packs like `vanilla` and `modresources` (Forge) / `Fabric Mods` (Fabric) are always enabled. They can still be included in the list though for ordering purposes using their respective ids (which do not begin with `file/` since they are internal).
+Only external resource packs from `.minecraft/resourcepacks` must be included in the list, built-in resource packs like `vanilla` and `modresources` (Forge) / `fabric` (Fabric, formerly `Fabric Mods`) are always enabled. They can still be included in the list though for ordering purposes using their respective ids (which do not begin with `file/` since they are internal).
 
 It is important to note, that when including built-in resources in the list to be able to define an order, those resources must always be placed above vanilla assets to allow for mods to override those.
 
@@ -118,6 +118,7 @@ To help with defining the same set of override attributes for multiple packs, th
 
 ```json5
 {
+  // Make sure to remove any comments when using this example as a template as .json does not support comments
   "schema_version": 1,
   "failed_reloads_per_session": 5,
   // These two packs will be enabled by default when "options.txt" is first created or when resource reloading fails and is reset to a bare-bones state
@@ -137,7 +138,7 @@ To help with defining the same set of override attributes for multiple packs, th
       "description": "\"Resource pack from Minecraft\""
     },
     // The resource pack provided by the current server is added below user enabled resource packs
-    // Also allows for being moved up or down on the pack selection screen
+    // Also allows for being moved up or down on the pack selection screen instead of being fixed
     "server": {
       "default_position": "BOTTOM",
       "force_compatible": true,
