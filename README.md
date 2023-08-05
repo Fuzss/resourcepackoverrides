@@ -117,8 +117,8 @@ To help with defining the same set of override attributes for multiple packs, th
 > .minecraft/config/resourcepackoverrides.json
 
 ```json5
-// Make sure to remove any comments when using this example as a template as .json does not support comments
 {
+  // Make sure to remove any comments when using this example as a template as .json does not support comments
   "schema_version": 1,
   "failed_reloads_per_session": 5,
   // These two packs will be enabled by default when "options.txt" is first created or when resource reloading fails and is reset to a bare-bones state
