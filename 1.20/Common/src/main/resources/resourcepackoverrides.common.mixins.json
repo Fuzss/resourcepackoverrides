@@ -9,9 +9,7 @@
   "client": [
     "client.MinecraftMixin",
     "client.PackRepositoryMixin",
-    "client.PackSelectionModelMixin",
-    "client.PackSelectionScreenMixin",
-    "client.accessor.PackEntryAccessor"
+    "client.PackSelectionModelMixin"
   ],
   "injectors": {
     "defaultRequire": 1

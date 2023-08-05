@@ -4,8 +4,6 @@ import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.platform.Window;
 import fuzs.resourcepackoverrides.client.core.ClientAbstractions;
 import fuzs.resourcepackoverrides.client.data.ResourceOverridesManager;
-import fuzs.resourcepackoverrides.client.gui.screens.packs.PackAwareSelectionEntry;
-import fuzs.resourcepackoverrides.mixin.client.accessor.PackEntryAccessor;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.ChatFormatting;
@@ -82,9 +80,7 @@ public class PackActionsHandler {
                     }
                 }
                 if (hovered != null) {
-                    if (((PackEntryAccessor) hovered).resourcepackoverrides$getPack() instanceof PackAwareSelectionEntry selectionEntry) {
-                        return Optional.of(selectionEntry.getPackId().replace("§", "\\u00A7"));
-                    }
+                    return Optional.of(hovered.getPackId().replace("§", "\\u00A7"));
                 }
             }
         }

@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog].
 
+## [v8.0.1-1.20.1] - 2023-08-05
+### Fixed
+- Fixed order buttons showing when all but one packs are hidden
+
 ## [v8.0.0-1.20.1] - 2023-06-27
 - Ported to Minecraft 1.20.1
 

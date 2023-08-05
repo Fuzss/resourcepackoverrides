@@ -22,7 +22,7 @@ abstract class PackRepositoryMixin {
     private void discoverAvailable(CallbackInfoReturnable<Map<String, Pack>> callback) {
         // Wrap only on resource pack selection screen, we don't want to mess with data packs.
         if (PackRepository.class.cast(this) != Minecraft.getInstance().getResourcePackRepository()) return;
-        callback.setReturnValue(callback.getReturnValue().entrySet().stream().collect(ImmutableMap.toImmutableMap(Map.Entry::getKey, entry -> ForwardingPackHelper.copy(entry.getValue()))));
+        callback.setReturnValue(callback.getReturnValue().entrySet().stream().collect(ImmutableMap.toImmutableMap(Map.Entry::getKey, entry -> ForwardingPackHelper.copyAndOverride(entry.getValue()))));
     }
 
     @Inject(method = "rebuildSelected", at = @At("TAIL"), cancellable = true)
