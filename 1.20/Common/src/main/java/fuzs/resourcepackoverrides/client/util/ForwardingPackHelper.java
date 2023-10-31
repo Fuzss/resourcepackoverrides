@@ -1,5 +1,6 @@
 package fuzs.resourcepackoverrides.client.util;
 
+import fuzs.resourcepackoverrides.client.core.ClientAbstractions;
 import fuzs.resourcepackoverrides.client.data.PackSelectionOverride;
 import fuzs.resourcepackoverrides.client.data.ResourceOverridesManager;
 import net.minecraft.SharedConstants;
@@ -15,17 +16,18 @@ public class ForwardingPackHelper {
         Component title = override.title() != null ? override.title() : pack.getTitle();
         Component description = override.description() != null ? override.description() : pack.getDescription();
         PackCompatibility compatibility = override.compatibility() != null ? override.compatibility() : pack.getCompatibility();
-        Boolean required = override.required() != null ? override.required() : Boolean.valueOf(pack.isRequired());
-        Boolean fixedPosition = override.fixedPosition() != null ? override.fixedPosition() : Boolean.valueOf(pack.isFixedPosition());
+        boolean required = override.required() != null ? override.required() : pack.isRequired();
+        boolean fixedPosition = override.fixedPosition() != null ? override.fixedPosition() : pack.isFixedPosition();
         Pack.Position defaultPosition = override.defaultPosition() != null ? override.defaultPosition() : pack.getDefaultPosition();
-        Pack.Info info = rebuildPackInfo(pack, description, compatibility);
+        boolean hidden = override.hidden() != null ? override.hidden() : ClientAbstractions.INSTANCE.isPackHidden(pack);
+        Pack.Info info = rebuildPackInfo(pack, description, compatibility, hidden);
         return Pack.create(pack.getId(), title, required, id -> pack.open(), info, PackType.CLIENT_RESOURCES, defaultPosition, fixedPosition, pack.getPackSource());
     }
 
-    private static Pack.Info rebuildPackInfo(Pack pack, Component description, PackCompatibility compatibility) {
+    private static Pack.Info rebuildPackInfo(Pack pack, Component description, PackCompatibility compatibility, boolean hidden) {
         int packVersion = SharedConstants.getCurrentVersion().getPackVersion(PackType.CLIENT_RESOURCES);
         if (compatibility == PackCompatibility.TOO_OLD) packVersion--;
         if (compatibility == PackCompatibility.TOO_NEW) packVersion++;
-        return new Pack.Info(description, packVersion, pack.getRequestedFeatures());
+        return ClientAbstractions.INSTANCE.createPackInfo(description, packVersion, pack.getRequestedFeatures(), hidden);
     }
 }

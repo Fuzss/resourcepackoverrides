@@ -20,7 +20,7 @@ Resource Pack Overrides has two main features which can be managed in the mentio
 
 ### Resource pack ids
 
-Resource packs are referenced via their internal id. Ids for built-in packs are:
+Resource packs are referenced via their internal id. Ids for common built-in packs are:
 + `vanilla` for Minecraft's default resources
 + `mod_resources` for the Mod Resources pack on Forge
 + `fabric` for the Fabric Mods pack on Fabric (formerly `Fabric Mods`)
@@ -29,6 +29,8 @@ Resource packs are referenced via their internal id. Ids for built-in packs are:
 + `programer_art` for the built-in Programmer Art pack (note the id only has a single "m" char)
 
 Ids for external packs (packs loaded from `.minecraft/resourcepacks`) follow the following format: `file/FILE_NAME`. Note that the file extension is included. So, e.g. a pack put at `.minecraft/resourcepacks/my_awesome_pack.zip` has the id `file/my_awesome_pack.zip`.
+
+Please note that it is not allowed to use `§` as part of a resource pack id. If one of your pack includes that character, make sure to replace it with `\u00A7` when referencing the pack in the config file.
 
 Additionally, the id of the currently hovered resource pack in the pack selection screen is shown as a tooltip when debug mode is enabled, which is done by holding the `D` key.
 
@@ -100,14 +102,14 @@ All overrides are optional and therefore must not be defined for every pack. If 
 | `hidden`           | The pack is hidden on the resource pack screen (useful for enabled packs the user is not supposed to be able to modify in any way).                                                                                   | `true`                 |
 
 #### Per-pack override groups
-To help with defining the same set of override attributes for multiple packs, the `pack_overrides` section supports defining and using groups. Groups are included as JSON arrays and are referenced just like other packs, but starting with `$`. Example:
+To help with defining the same set of override attributes for multiple packs, the `pack_overrides` section supports defining and using groups. Groups are included as JSON arrays and are referenced just like other packs, but starting with `$$`. Example:
 ```json5
 "pack_overrides": {
     "1": [
         "file/my_awesome_pack.zip",
         "file/my_other_awesome_pack.zip"
     ],
-    "$1": {
+    "$$1": {
         "hidden": true
     }
 }
@@ -119,7 +121,7 @@ To help with defining the same set of override attributes for multiple packs, th
 ```json5
 {
   // Make sure to remove any comments when using this example as a template as .json does not support comments
-  "schema_version": 1,
+  "schema_version": 2,
   "failed_reloads_per_session": 5,
   // These two packs will be enabled by default when "options.txt" is first created or when resource reloading fails and is reset to a bare-bones state
   // Packs included here can still be manually disabled by the user, this can be prevented with overrides below though
@@ -151,10 +153,14 @@ To help with defining the same set of override attributes for multiple packs, th
     ],
     // Attributes are configured for all packs in group "1"
     // Note that referencing a group id must begin with "$"
-    "$1": {
+    "$$1": {
       "hidden": true,
       "required": true
     }
   }
 }
 ```
+
+### Schema changelog
+- `1`: Initial release
+- `2`: The identifier for groups must now begin with `$$` instead of `$`

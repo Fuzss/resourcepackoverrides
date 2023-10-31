@@ -14,6 +14,7 @@ import net.minecraft.util.GsonHelper;
 import org.apache.commons.compress.utils.Lists;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.File;
 import java.io.FileReader;
 import java.util.List;
 import java.util.Locale;
@@ -22,7 +23,9 @@ import java.util.function.Function;
 
 public class ResourceOverridesManager {
     private static final String FILE_NAME = ResourcePackOverrides.MOD_ID + ".json";
-    private static final String SCHEMA_VERSION = String.valueOf(1);
+    private static final String SCHEMA_VERSION = String.valueOf(2);
+    private static final String GROUP_PREFIX = "$$";
+
     private static Map<String, PackSelectionOverride> overridesById = Maps.newHashMap();
     private static List<String> defaultResourcePacks;
     private static PackSelectionOverride defaultOverride;
@@ -42,13 +45,20 @@ public class ResourceOverridesManager {
     public static void load() {
         defaultResourcePacks = ImmutableList.of();
         defaultOverride = PackSelectionOverride.EMPTY;
-        JsonConfigFileUtil.getAndLoad(FILE_NAME, file -> {}, ResourceOverridesManager::deserializeAllOverrides);
+        JsonConfigFileUtil.getAndLoad(FILE_NAME, (File file) -> {
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("schema_version", SCHEMA_VERSION);
+            JsonConfigFileUtil.saveToFile(file, jsonObject);
+        }, ResourceOverridesManager::deserializeAllOverrides);
     }
 
     private static void deserializeAllOverrides(FileReader reader) {
         JsonElement jsonElement = JsonConfigFileUtil.GSON.fromJson(reader, JsonElement.class);
         JsonObject jsonObject = GsonHelper.convertToJsonObject(jsonElement, "resource pack override");
-        if (!GsonHelper.getAsString(jsonObject, "schema_version").equals(SCHEMA_VERSION)) throw new IllegalArgumentException("wrong config schema present");
+        String schemaVersion = GsonHelper.getAsString(jsonObject, "schema_version", "1");
+        if (!schemaVersion.equals(SCHEMA_VERSION)) {
+            ResourcePackOverrides.LOGGER.warn("Outdated config schema! Config might not work correctly. Current schema is {}.", SCHEMA_VERSION);
+        }
         failedReloads = GsonHelper.getAsInt(jsonObject, "failed_reloads_per_session", 5);
         if (jsonObject.has("default_packs")) {
             JsonArray resourcePacks = jsonObject.getAsJsonArray("default_packs");
@@ -78,10 +88,11 @@ public class ResourceOverridesManager {
             }
         }
         ImmutableMap.Builder<String, PackSelectionOverride> builder = ImmutableMap.builder();
+        String prefix = schemaVersion.equals("1") ? "$" : GROUP_PREFIX;
         for (Map.Entry<String, PackSelectionOverride> entry : packOverrides.entrySet()) {
             String id = entry.getKey();
-            if (id.startsWith("$")) {
-                List<String> groupIds = overrideGroups.get(id.substring(1));
+            if (id.startsWith(prefix)) {
+                List<String> groupIds = overrideGroups.get(id.substring(prefix.length()));
                 if (groupIds == null) throw new IllegalArgumentException("Unknown group id %s".formatted(id));
                 for (String groupId : groupIds) {
                     builder.put(groupId, entry.getValue());
