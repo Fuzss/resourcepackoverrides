@@ -26,11 +26,12 @@ Resource packs are referenced via their internal id. Ids for common built-in pac
 + `fabric` for the Fabric Mods pack on Fabric (formerly `Fabric Mods`)
 + `server` for a downloaded resource pack provided by a server while logged in
 + `world` for a resource pack bundled with the currently played single-player world
-+ `programer_art` for the built-in Programmer Art pack (note the id only has a single "m" char)
++ `programmer_art` for the built-in Programmer Art pack (formerly `programer_art` with just a single "m" letter)
++ `high_contrast` for the built-in High Contrast pack
 
 Ids for external packs (packs loaded from `.minecraft/resourcepacks`) follow the following format: `file/FILE_NAME`. Note that the file extension is included. So, e.g. a pack put at `.minecraft/resourcepacks/my_awesome_pack.zip` has the id `file/my_awesome_pack.zip`.
 
-Please note that it is not allowed to use `§` as part of a resource pack id. If one of your pack includes that character, make sure to replace it with `\u00A7` when referencing the pack in the config file.
+It is not allowed to use the `§` character as part of a resource pack id. If one of your pack includes it, make sure the character is replaced with `\u00A7` when referencing the pack in the config file. This means a pack such as `.minecraft/resourcepacks/§b§lmy_awesome_pack§r.zip` must be referenced as `file/\u00A7b\u00A7lmy_awesome_pack\u00A7r.zip`.
 
 Additionally, the id of the currently hovered resource pack in the pack selection screen is shown as a tooltip when debug mode is enabled, which is done by holding the `D` key.
 
@@ -152,7 +153,7 @@ To help with defining the same set of override attributes for multiple packs, th
       "file/my_other_awesome_pack.zip"
     ],
     // Attributes are configured for all packs in group "1"
-    // Note that referencing a group id must begin with "$"
+    // Note that referencing a group id must begin with "$$"
     "$$1": {
       "hidden": true,
       "required": true
