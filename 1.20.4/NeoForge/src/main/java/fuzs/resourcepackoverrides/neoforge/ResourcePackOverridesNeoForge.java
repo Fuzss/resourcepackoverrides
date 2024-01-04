@@ -1,5 +1,6 @@
-package fuzs.resourcepackoverrides;
+package fuzs.resourcepackoverrides.neoforge;
 
+import fuzs.resourcepackoverrides.ResourcePackOverrides;
 import fuzs.resourcepackoverrides.data.client.ModLanguageProvider;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;

@@ -1,4 +1,4 @@
-package fuzs.resourcepackoverrides.mixin.client;
+package fuzs.resourcepackoverrides.forge.mixin.client;
 
 import fuzs.resourcepackoverrides.client.data.ResourceOverridesManager;
 import net.minecraft.client.Options;

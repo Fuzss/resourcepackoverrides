@@ -1,4 +1,4 @@
-package fuzs.resourcepackoverrides.client;
+package fuzs.resourcepackoverrides.fabric.client;
 
 import fuzs.resourcepackoverrides.client.handler.PackActionsHandler;
 import net.fabricmc.api.ClientModInitializer;

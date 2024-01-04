@@ -1,4 +1,4 @@
-package fuzs.resourcepackoverrides.mixin.client;
+package fuzs.resourcepackoverrides.fabric.mixin.client;
 
 import fuzs.resourcepackoverrides.client.data.ResourceOverridesManager;
 import net.minecraft.client.Options;
@@ -13,8 +13,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 
-@Mixin(Options.class)
-abstract class OptionsNeoForgeMixin {
+// Run after Fabric Api, or we might break mod resource packs being added.
+@Mixin(value = Options.class, priority = 2000)
+abstract class OptionsFabricMixin {
     @Shadow
     public List<String> resourcePacks;
     @Shadow
@@ -22,13 +23,25 @@ abstract class OptionsNeoForgeMixin {
     @Unique
     private boolean resourcePackOverrides$wasEmpty;
 
-    @Inject(method = "load(Z)V", at = @At("RETURN"), remap = false)
-    private void load(boolean limited, CallbackInfo callback) {
+    @Inject(method = "load", at = @At(value = "HEAD"))
+    private void load$0(CallbackInfo callback) {
+        // Runs before options.txt file is read, value will remain if the file is not present and needs to generate first.
+        this.resourcePackOverrides$wasEmpty = this.resourcePacks.isEmpty();
+    }
+
+    @Inject(method = "load", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/KeyMapping;resetMapping()V", shift = At.Shift.AFTER))
+    private void load$1(CallbackInfo callback) {
+        // Runs after options.txt file is read, so will be skipped when it has not been generated yet.
+        this.resourcePackOverrides$wasEmpty = this.resourcePacks.isEmpty();
+    }
+
+    @Inject(method = "load", at = @At("RETURN"))
+    private void load$2(CallbackInfo callback) {
         // Add built-in resource packs if they are enabled by default only if the options file is blank.
-        if (this.resourcePacks.isEmpty()) {
-            this.resourcePackOverrides$wasEmpty = true;
+        // Don't check on resource packs list being empty directly as it has already been altered by Fabric Api.
+        if (this.resourcePackOverrides$wasEmpty) {
             List<String> defaultResourcePacks = ResourceOverridesManager.getDefaultResourcePacks(false);
-            // If we provide an ordering for already present packs (from Forge) then apply our order instead of the existing one.
+            // If we provide an ordering for already present packs (from Fabric Api) then apply our order instead of the existing one.
             this.resourcePacks.removeAll(defaultResourcePacks);
             this.resourcePacks.addAll(defaultResourcePacks);
         }

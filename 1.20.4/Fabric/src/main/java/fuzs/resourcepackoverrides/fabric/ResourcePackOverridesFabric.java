@@ -1,4 +1,4 @@
-package fuzs.resourcepackoverrides;
+package fuzs.resourcepackoverrides.fabric;
 
 import net.fabricmc.api.ModInitializer;
 

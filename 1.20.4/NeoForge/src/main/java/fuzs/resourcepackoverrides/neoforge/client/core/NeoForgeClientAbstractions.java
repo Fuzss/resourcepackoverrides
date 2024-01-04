@@ -1,17 +1,18 @@
-package fuzs.resourcepackoverrides.client.core;
+package fuzs.resourcepackoverrides.neoforge.client.core;
 
+import fuzs.resourcepackoverrides.client.core.ClientAbstractions;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackCompatibility;
 import net.minecraft.world.flag.FeatureFlagSet;
-import net.minecraftforge.fml.loading.FMLPaths;
+import net.neoforged.fml.loading.FMLPaths;
 
 import java.nio.file.Path;
 import java.util.List;
 
-public class ForgeClientAbstractions implements ClientAbstractions {
+public class NeoForgeClientAbstractions implements ClientAbstractions {
 
     @Override
     public Path getConfigDirectory() {

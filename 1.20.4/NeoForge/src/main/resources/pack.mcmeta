@@ -1,0 +1,8 @@
+{
+    "pack": {
+        "description": "${modDescription}",
+        "pack_format": ${resourcePackFormat},
+        "neoforge:resource_pack_format": ${resourcePackFormat},
+        "neoforge:data_pack_format": ${dataPackFormat}
+    }
+}
