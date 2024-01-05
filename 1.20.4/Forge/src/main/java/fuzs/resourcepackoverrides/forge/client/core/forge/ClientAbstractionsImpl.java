@@ -1,6 +1,5 @@
-package fuzs.resourcepackoverrides.forge.client.core;
+package fuzs.resourcepackoverrides.forge.client.core.forge;
 
-import fuzs.resourcepackoverrides.client.core.ClientAbstractions;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -12,25 +11,21 @@ import net.minecraftforge.fml.loading.FMLPaths;
 import java.nio.file.Path;
 import java.util.List;
 
-public class ForgeClientAbstractions implements ClientAbstractions {
+public class ClientAbstractionsImpl {
 
-    @Override
-    public Path getConfigDirectory() {
+    public static Path getConfigDirectory() {
         return FMLPaths.CONFIGDIR.get();
     }
 
-    @Override
-    public Font getScreenFont(Screen screen) {
+    public static Font getScreenFont(Screen screen) {
         return screen.getMinecraft().font;
     }
 
-    @Override
-    public boolean isPackHidden(Pack pack) {
+    public static boolean isPackHidden(Pack pack) {
         return pack.isHidden();
     }
 
-    @Override
-    public Pack.Info createPackInfo(Component description, PackCompatibility compatibility, FeatureFlagSet features, List<String> overlays, boolean hidden) {
+    public static Pack.Info createPackInfo(Component description, PackCompatibility compatibility, FeatureFlagSet features, List<String> overlays, boolean hidden) {
         return new Pack.Info(description, compatibility, features, overlays, hidden);
     }
 }

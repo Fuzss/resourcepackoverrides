@@ -63,7 +63,7 @@ public class PackActionsHandler {
     public static void onScreen$Render$Post(Screen screen, GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         if (debugTooltips) {
             getHoveredPackId(screen, mouseX, mouseY).map(Component::literal).ifPresent(component -> {
-                guiGraphics.renderTooltip(ClientAbstractions.INSTANCE.getScreenFont(screen), component, mouseX, mouseY);
+                guiGraphics.renderTooltip(ClientAbstractions.getScreenFont(screen), component, mouseX, mouseY);
             });
         }
     }

@@ -1,5 +1,6 @@
 package fuzs.resourcepackoverrides.client.core;
 
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -11,13 +12,24 @@ import java.nio.file.Path;
 import java.util.List;
 
 public interface ClientAbstractions {
-    ClientAbstractions INSTANCE = ServiceProviderHelper.load(ClientAbstractions.class);
 
-    Path getConfigDirectory();
+    @ExpectPlatform
+    static Path getConfigDirectory() {
+        throw new RuntimeException();
+    }
 
-    Font getScreenFont(Screen screen);
+    @ExpectPlatform
+    static Font getScreenFont(Screen screen) {
+        throw new RuntimeException();
+    }
 
-    boolean isPackHidden(Pack pack);
+    @ExpectPlatform
+    static boolean isPackHidden(Pack pack) {
+        throw new RuntimeException();
+    }
 
-    Pack.Info createPackInfo(Component description, PackCompatibility compatibility, FeatureFlagSet features, List<String> overlays, boolean hidden);
+    @ExpectPlatform
+    static Pack.Info createPackInfo(Component description, PackCompatibility compatibility, FeatureFlagSet features, List<String> overlays, boolean hidden) {
+        throw new RuntimeException();
+    }
 }

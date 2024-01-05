@@ -212,7 +212,7 @@ public class JsonConfigFileUtil {
      * @return file
      */
     public static File getConfigPath(String jsonName) {
-        return ClientAbstractions.INSTANCE.getConfigDirectory().resolve(jsonName).toFile();
+        return ClientAbstractions.getConfigDirectory().resolve(jsonName).toFile();
     }
 
     /**
@@ -222,6 +222,6 @@ public class JsonConfigFileUtil {
      * @return file
      */
     public static File getSpecialConfigPath(String jsonName, String modId) {
-        return ClientAbstractions.INSTANCE.getConfigDirectory().resolve(modId).resolve(jsonName).toFile();
+        return ClientAbstractions.getConfigDirectory().resolve(modId).resolve(jsonName).toFile();
     }
 }

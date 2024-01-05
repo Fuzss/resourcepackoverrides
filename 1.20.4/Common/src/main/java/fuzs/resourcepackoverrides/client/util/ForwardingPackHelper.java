@@ -18,8 +18,8 @@ public class ForwardingPackHelper {
         boolean required = override.required() != null ? override.required() : pack.isRequired();
         boolean fixedPosition = override.fixedPosition() != null ? override.fixedPosition() : pack.isFixedPosition();
         Pack.Position defaultPosition = override.defaultPosition() != null ? override.defaultPosition() : pack.getDefaultPosition();
-        boolean hidden = override.hidden() != null ? override.hidden() : ClientAbstractions.INSTANCE.isPackHidden(pack);
-        Pack.Info info = ClientAbstractions.INSTANCE.createPackInfo(description, compatibility, pack.getRequestedFeatures(), pack.info.overlays(), hidden);
+        boolean hidden = override.hidden() != null ? override.hidden() : ClientAbstractions.isPackHidden(pack);
+        Pack.Info info = ClientAbstractions.createPackInfo(description, compatibility, pack.getRequestedFeatures(), pack.info.overlays(), hidden);
         return Pack.create(pack.getId(), title, required, new ForwardingResourcesSupplier(pack), info, defaultPosition, fixedPosition, pack.getPackSource());
     }
 
