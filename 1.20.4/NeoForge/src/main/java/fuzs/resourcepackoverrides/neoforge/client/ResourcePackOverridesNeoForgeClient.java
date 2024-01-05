@@ -22,13 +22,13 @@ public class ResourcePackOverridesNeoForgeClient {
 
     private static void registerHandlers() {
         NeoForge.EVENT_BUS.addListener((final ScreenEvent.Render.Post evt) -> {
-            if (evt.getScreen() instanceof PackSelectionScreen) {
-                PackActionsHandler.onScreen$Render$Post(evt.getScreen(), evt.getGuiGraphics(), evt.getMouseX(), evt.getMouseY(), evt.getPartialTick());
+            if (evt.getScreen() instanceof PackSelectionScreen screen) {
+                PackActionsHandler.onScreen$Render$Post(screen.getMinecraft(), screen, evt.getGuiGraphics(), evt.getMouseX(), evt.getMouseY(), evt.getPartialTick());
             }
         });
         NeoForge.EVENT_BUS.addListener((final ScreenEvent.KeyPressed.Post evt) -> {
-            if (evt.getScreen() instanceof PackSelectionScreen) {
-                PackActionsHandler.onKeyPressed$Post(evt.getScreen(), evt.getKeyCode(), evt.getScanCode(), evt.getModifiers());
+            if (evt.getScreen() instanceof PackSelectionScreen screen) {
+                PackActionsHandler.onKeyPressed$Post(screen.getMinecraft(), screen, evt.getKeyCode(), evt.getScanCode(), evt.getModifiers());
             }
         });
         NeoForge.EVENT_BUS.addListener((final TickEvent.ClientTickEvent evt) -> {

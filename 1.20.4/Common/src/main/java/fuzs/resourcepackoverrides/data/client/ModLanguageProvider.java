@@ -19,5 +19,8 @@ public class ModLanguageProvider extends AbstractLanguageProvider {
         builder.add("packAction.toggleDebug.title", "Toggle Pack Ids");
         builder.add("packAction.toggleDebug.description", "Hold %s to toggle");
         builder.add("packAction.toggleDebug.success", "Toggled!");
+        builder.add("packAction.restoreDefaults.title", "Restore Default Packs");
+        builder.add("packAction.restoreDefaults.description", "Hold %s to restore");
+        builder.add("packAction.restoreDefaults.success", "Restored!");
     }
 }

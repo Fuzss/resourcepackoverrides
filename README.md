@@ -22,7 +22,7 @@ Resource Pack Overrides has two main features which can be managed in the mentio
 
 Resource packs are referenced via their internal id. Ids for common built-in packs are:
 + `vanilla` for Minecraft's default resources
-+ `mod_resources` for the Mod Resources pack on Forge
++ `mod_resources` for the Mod Resources pack on NeoForge / Forge
 + `fabric` for the Fabric Mods pack on Fabric (formerly `Fabric Mods`)
 + `server` for a downloaded resource pack provided by a server while logged in
 + `world` for a resource pack bundled with the currently played single-player world
@@ -43,6 +43,7 @@ Debug keys exist to help setting up your mod packs `resourcepackoverrides.json` 
 - Hold `R` to reload the config
 - Hold `D` to toggle showing internal pack ids for the hovered resource pack entry
 - Hold `C` to copy the hovered resource pack id to the clipboard
+- Hold `T` to restore selected resource packs as specified in `default_packs`
 
 ### Default resource pack list and order
 This happens for a new install when `options.txt` is still absent/blank, or after resource pack loading has failed and resets to a bare-bones state.
@@ -58,13 +59,15 @@ The default resource pack list is included in the config file as a JSON array la
 ]
 ```
 
-The list is applied in reverse, meaning one resource pack placed above another will appear below that other pack in the resource pack selection screen. 
+**The list is applied in reverse!** This means one resource pack placed above another will appear below that other pack in the resource pack selection screen. 
 
-Only external resource packs from `.minecraft/resourcepacks` must be included in the list, built-in resource packs like `vanilla` and `modresources` (Forge) / `fabric` (Fabric, formerly `Fabric Mods`) are always enabled. They can still be included in the list though for ordering purposes using their respective ids (which do not begin with `file/` since they are internal).
+Only external resource packs from `.minecraft/resourcepacks` must be included in the list, built-in resource packs like `vanilla` and `modresources` (NeoForge / Forge) / `fabric` (Fabric, formerly `Fabric Mods`) are always enabled. They can still be included in the list though for ordering purposes using their respective ids (which do not begin with `file/` since they are internal).
 
 It is important to note, that when including built-in resources in the list to be able to define an order, those resources must always be placed above vanilla assets to allow for mods to override those.
 
-As it's possible when resource pack reloading fails that the issue lies within the resource packs enabled by default, there is a maximum number of times applying the default resource packs list will be tried when recovering from a failed resource pack loading attempt. By default, this is 5 times and can be configured by setting the value `failed_reloads_per_session`. Example:
+The list defined in `default_packs` can be manually applied by holding the `T` key in the resource pack selection screen.
+
+As it's possible when resource pack reloading fails that the issue lies within the resource packs enabled by default, there is a maximum number of times applying the default resource packs list will be attempted when recovering from a failed resource pack loading attempt. By default, this is set to `5` times and can be configured by setting the value `failed_reloads_per_session`. Example:
 
 ```json
 "failed_reloads_per_session": 5
