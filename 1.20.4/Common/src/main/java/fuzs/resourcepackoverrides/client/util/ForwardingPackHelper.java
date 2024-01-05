@@ -1,6 +1,6 @@
 package fuzs.resourcepackoverrides.client.util;
 
-import fuzs.resourcepackoverrides.client.core.ClientAbstractions;
+import fuzs.resourcepackoverrides.ClientAbstractions;
 import fuzs.resourcepackoverrides.client.data.PackSelectionOverride;
 import fuzs.resourcepackoverrides.client.data.ResourceOverridesManager;
 import net.minecraft.network.chat.Component;
@@ -20,7 +20,8 @@ public class ForwardingPackHelper {
         Pack.Position defaultPosition = override.defaultPosition() != null ? override.defaultPosition() : pack.getDefaultPosition();
         boolean hidden = override.hidden() != null ? override.hidden() : ClientAbstractions.isPackHidden(pack);
         Pack.Info info = ClientAbstractions.createPackInfo(description, compatibility, pack.getRequestedFeatures(), pack.info.overlays(), hidden);
-        return Pack.create(pack.getId(), title, required, new ForwardingResourcesSupplier(pack), info, defaultPosition, fixedPosition, pack.getPackSource());
+        Pack newPack = Pack.create(pack.getId(), title, required, new ForwardingResourcesSupplier(pack), info, defaultPosition, fixedPosition, pack.getPackSource());
+        return ClientAbstractions.copyChildren(pack, newPack);
     }
 
     private record ForwardingResourcesSupplier(Pack pack) implements Pack.ResourcesSupplier {

@@ -1,4 +1,4 @@
-package fuzs.resourcepackoverrides.neoforge.mixin.client;
+package fuzs.resourcepackoverrides.forge.mixin.client;
 
 import fuzs.resourcepackoverrides.client.data.ResourceOverridesManager;
 import net.minecraft.client.Options;
@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.List;
 
 @Mixin(Options.class)
-abstract class OptionsNeoForgeMixin {
+abstract class OptionsMixin {
     @Shadow
     public List<String> resourcePacks;
     @Shadow

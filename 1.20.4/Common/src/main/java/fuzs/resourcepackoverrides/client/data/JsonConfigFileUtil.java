@@ -5,7 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import fuzs.resourcepackoverrides.ResourcePackOverrides;
-import fuzs.resourcepackoverrides.client.core.ClientAbstractions;
+import fuzs.resourcepackoverrides.ClientAbstractions;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.*;

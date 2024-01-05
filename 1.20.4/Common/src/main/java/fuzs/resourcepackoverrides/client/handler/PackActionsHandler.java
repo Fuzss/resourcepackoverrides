@@ -2,7 +2,7 @@ package fuzs.resourcepackoverrides.client.handler;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.platform.Window;
-import fuzs.resourcepackoverrides.client.core.ClientAbstractions;
+import fuzs.resourcepackoverrides.ClientAbstractions;
 import fuzs.resourcepackoverrides.client.data.ResourceOverridesManager;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;

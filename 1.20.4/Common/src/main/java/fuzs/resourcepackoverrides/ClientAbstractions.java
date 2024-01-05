@@ -1,4 +1,4 @@
-package fuzs.resourcepackoverrides.client.core;
+package fuzs.resourcepackoverrides;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.client.gui.Font;
@@ -30,6 +30,11 @@ public interface ClientAbstractions {
 
     @ExpectPlatform
     static Pack.Info createPackInfo(Component description, PackCompatibility compatibility, FeatureFlagSet features, List<String> overlays, boolean hidden) {
+        throw new RuntimeException();
+    }
+
+    @ExpectPlatform
+    static Pack copyChildren(Pack oldPack, Pack newPack) {
         throw new RuntimeException();
     }
 }

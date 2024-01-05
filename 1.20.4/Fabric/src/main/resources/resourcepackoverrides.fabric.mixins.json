@@ -6,7 +6,7 @@
   "mixins": [
   ],
   "client": [
-    "client.OptionsFabricMixin"
+    "client.OptionsMixin"
   ],
   "injectors": {
     "defaultRequire": 1
