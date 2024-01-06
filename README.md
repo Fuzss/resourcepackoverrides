@@ -10,7 +10,7 @@ Resource Pack Overrides exists to help mod pack makers with managing pre-install
 ## Configuration
 Resource Pack Overrides is configured via a single config file located at `.minecraft/config/resourcepackoverrides.json`.
 
-**THE FILE DOES NOT GENERATE WHEN ABSENT. YOU DO HAVE TO CREATE IT MANUALLY.**
+**THE FILE DOES NOT GENERATE WHEN ABSENT ON OLDER VERSIONS. YOU DO HAVE TO CREATE IT MANUALLY.**
 
 The config can be reloaded in game when on the resource pack selection screen by holding down the `R` key.
 
@@ -124,7 +124,7 @@ To help with defining the same set of override attributes for multiple packs, th
 
 ```json5
 {
-  // Make sure to remove any comments when using this example as a template as .json does not support comments
+  // Make sure to remove any comments when using this example as a template as the basic .json format does not support any comments
   "schema_version": 2,
   "failed_reloads_per_session": 5,
   // These two packs will be enabled by default when "options.txt" is first created or when resource reloading fails and is reset to a bare-bones state

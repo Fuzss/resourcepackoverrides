@@ -2,7 +2,7 @@ name: Crash Report
 description: >-
   Please use this template when this mod has caused your game to crash. Please note that only the latest mod version for Minecraft 1.18.2, 1.19.2 and 1.20.1 is supported.
 title: '[Crash]: '
-labels: ["bug"]
+labels: ["bug", "high priority", "help wanted"]
 assignees:
   - Fuzss
 body:
@@ -27,7 +27,13 @@ body:
     attributes:
       label: Minecraft Version (Required)
       description: What is the Minecraft version you are playing with?
-      placeholder: ex. 1.20.1
+      multiple: true
+      options:
+        - 1.18.2
+        - 1.19.2
+        - 1.20.1
+        - 1.20.2
+        - 1.20.4
     validations:
       required: true
   - type: input
