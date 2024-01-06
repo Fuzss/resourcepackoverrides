@@ -22,7 +22,7 @@ body:
         - Quilt
     validations:
       required: true
-  - type: input
+  - type: dropdown
     id: minecraft
     attributes:
       label: Minecraft Version (Required)
