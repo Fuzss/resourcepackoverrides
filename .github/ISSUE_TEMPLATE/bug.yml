@@ -62,7 +62,7 @@ body:
     id: latest-log
     attributes:
       label: latest.log (Required)
-      description: Please paste the url to your shared `latest.log` file. Note that issue reports without this file are difficult and unlikely to be processed. [To share your `latest.log` here, please follow these steps.](https://gist.github.com/Fuzss/866b384d353912986e37b17eeef7a285)
+      description: Please paste the url to your shared `latest.log` file. Note that issue reports without this file are difficult to solve and unlikely to be processed. [To share your `latest.log` here, please follow these steps.](https://gist.github.com/Fuzss/866b384d353912986e37b17eeef7a285)
       placeholder: ex. https://gist.github.com/<your_user_name>/<gist_id>
     validations:
       required: true
