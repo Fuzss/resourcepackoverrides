@@ -1,6 +1,7 @@
 package fuzs.resourcepackoverrides.fabric;
 
 import net.fabricmc.fabric.api.client.screen.v1.Screens;
+import net.fabricmc.fabric.impl.resource.loader.FabricResourcePackProfile;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.screens.Screen;
@@ -31,7 +32,10 @@ public class ClientAbstractionsImpl {
         return new Pack.Info(description, compatibility, features, overlays);
     }
 
-    public static Pack copyChildren(Pack oldPack, Pack newPack) {
+    public static Pack finalizePack(Pack oldPack, Pack newPack) {
+        if (((FabricResourcePackProfile) oldPack).fabric_isHidden()) {
+            ((FabricResourcePackProfile) newPack).fabric_setParentsPredicate(((FabricResourcePackProfile) oldPack)::fabric_parentsEnabled);
+        }
         return newPack;
     }
 }

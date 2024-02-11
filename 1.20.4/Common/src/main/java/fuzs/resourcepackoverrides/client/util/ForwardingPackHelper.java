@@ -20,6 +20,6 @@ public class ForwardingPackHelper {
         boolean hidden = override.hidden() != null ? override.hidden() : ClientAbstractions.isPackHidden(pack);
         Pack.Info info = ClientAbstractions.createPackInfo(description, compatibility, pack.getRequestedFeatures(), pack.info.overlays(), hidden);
         Pack newPack = Pack.create(pack.getId(), title, required, pack.resources, info, defaultPosition, fixedPosition, pack.getPackSource());
-        return ClientAbstractions.copyChildren(pack, newPack);
+        return ClientAbstractions.finalizePack(pack, newPack);
     }
 }

@@ -29,7 +29,7 @@ public class ClientAbstractionsImpl {
         return new Pack.Info(description, compatibility, features, overlays, hidden);
     }
 
-    public static Pack copyChildren(Pack oldPack, Pack newPack) {
+    public static Pack finalizePack(Pack oldPack, Pack newPack) {
         return newPack.withChildren(oldPack.getChildren());
     }
 }

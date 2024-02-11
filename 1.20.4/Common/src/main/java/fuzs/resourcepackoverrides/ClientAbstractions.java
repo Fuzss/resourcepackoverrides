@@ -34,7 +34,7 @@ public interface ClientAbstractions {
     }
 
     @ExpectPlatform
-    static Pack copyChildren(Pack oldPack, Pack newPack) {
+    static Pack finalizePack(Pack oldPack, Pack newPack) {
         throw new RuntimeException();
     }
 }
