@@ -1,6 +1,14 @@
 accessWidener   v2  named
+accessible  field   net/minecraft/server/packs/repository/Pack  title   Lnet/minecraft/network/chat/Component;
+mutable field   net/minecraft/server/packs/repository/Pack  title   Lnet/minecraft/network/chat/Component;
 accessible  field   net/minecraft/server/packs/repository/Pack  info    Lnet/minecraft/server/packs/repository/Pack$Info;
-accessible  field   net/minecraft/server/packs/repository/Pack  resources   Lnet/minecraft/server/packs/repository/Pack$ResourcesSupplier;
+mutable field   net/minecraft/server/packs/repository/Pack  info    Lnet/minecraft/server/packs/repository/Pack$Info;
+accessible  field   net/minecraft/server/packs/repository/Pack  defaultPosition Lnet/minecraft/server/packs/repository/Pack$Position;
+mutable field   net/minecraft/server/packs/repository/Pack  defaultPosition Lnet/minecraft/server/packs/repository/Pack$Position;
+accessible  field   net/minecraft/server/packs/repository/Pack  required    Z
+mutable field   net/minecraft/server/packs/repository/Pack  required    Z
+accessible  field   net/minecraft/server/packs/repository/Pack  fixedPosition   Z
+mutable field   net/minecraft/server/packs/repository/Pack  fixedPosition   Z
 accessible  field   net/minecraft/client/gui/screens/packs/PackSelectionScreen  model   Lnet/minecraft/client/gui/screens/packs/PackSelectionModel;
 accessible  field   net/minecraft/client/gui/screens/packs/PackSelectionModel   repository  Lnet/minecraft/server/packs/repository/PackRepository;
 accessible  field   net/minecraft/client/gui/screens/packs/PackSelectionModel   selected    Ljava/util/List;

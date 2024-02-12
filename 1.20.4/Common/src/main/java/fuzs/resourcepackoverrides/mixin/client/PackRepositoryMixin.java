@@ -1,26 +1,30 @@
 package fuzs.resourcepackoverrides.mixin.client;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import fuzs.resourcepackoverrides.client.util.ForwardingPackHelper;
+import fuzs.resourcepackoverrides.client.data.PackSelectionOverride;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackRepository;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 import java.util.Map;
 
 @Mixin(PackRepository.class)
 abstract class PackRepositoryMixin {
+    @Shadow
+    private Map<String, Pack> available;
 
-    @ModifyReturnValue(method = "discoverAvailable", at = @At("TAIL"))
-    private Map<String, Pack> discoverAvailable(Map<String, Pack> packs) {
+    @Inject(method = "reload", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/packs/repository/PackRepository;rebuildSelected(Ljava/util/Collection;)Ljava/util/List;"))
+    public void reload(CallbackInfo callback) {
         // Wrap only on resource pack selection screen, we don't want to mess with data packs.
-        if (PackRepository.class.cast(this) != Minecraft.getInstance().getResourcePackRepository()) return packs;
-        return packs.entrySet().stream().collect(ImmutableMap.toImmutableMap(Map.Entry::getKey, entry -> ForwardingPackHelper.copyAndOverride(entry.getValue())));
+        if (PackRepository.class.cast(this) != Minecraft.getInstance().getResourcePackRepository()) return;
+        this.available.values().forEach(PackSelectionOverride::applyPackOverride);
     }
 
     @ModifyReturnValue(method = "rebuildSelected", at = @At("TAIL"))
