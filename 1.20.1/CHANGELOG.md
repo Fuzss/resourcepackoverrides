@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog].
 
+## [v8.0.3-1.20.1] - 2024-02-12
+### Fixed
+- Fix order of hidden packs changing when closing the resource packs screen
+
 ## [v8.0.2-1.20.1] - 2023-08-05
 ### Changed
 - The `resourcepackoverrides.json` file now generates as an empty file when absent
