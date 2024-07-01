@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_17",
+  "package": "${modGroup}.fabric.mixin",
+  "mixins": [
+  ],
+  "client": [
+    "client.OptionsFabricMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
