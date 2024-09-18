@@ -1,9 +1,0 @@
-apply from: "https://raw.githubusercontent.com/Fuzss/modresources/main/gradle/v2/forge.gradle"
-
-dependencies {
-    // Mixin Extras
-    include libs.mixinextras.forge
-
-    // Puzzles Lib
-//    modApi libs.puzzleslib.forge
-}
