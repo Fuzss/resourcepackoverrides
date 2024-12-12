@@ -1,0 +1,14 @@
+{
+  "packAction.copyId.description": "Mantenha %s para copiar",
+  "packAction.copyId.success": "Copiado!",
+  "packAction.copyId.title": "Copiar ID do pacote",
+  "packAction.reloadSettings.description": "Mantenha %s pressionado para recarregar",
+  "packAction.reloadSettings.success": "Recarregado!",
+  "packAction.reloadSettings.title": "Recarregar Configurações",
+  "packAction.restoreDefaults.description": "Mantenha %s para restaurar",
+  "packAction.restoreDefaults.success": "Restaurado!",
+  "packAction.restoreDefaults.title": "Restaurar Pacotes Padrão",
+  "packAction.toggleDebug.description": "Mantenha pressionado %s para alternar",
+  "packAction.toggleDebug.success": "Alternado!",
+  "packAction.toggleDebug.title": "Alternar IDs de pacotes"
+}
