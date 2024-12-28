@@ -27,48 +27,70 @@ public class PackActionsHandler {
     private static boolean debugTooltips;
 
     static {
-        PACK_ACTIONS.put(InputConstants.KEY_C, new PackAction(Component.translatable("packAction.copyId.title"), Component.translatable("packAction.copyId.description", Component.literal("C").withStyle(ChatFormatting.BOLD)), Component.translatable("packAction.copyId.success")) {
+        PACK_ACTIONS.put(InputConstants.KEY_C,
+                new PackAction(Component.translatable("packAction.copyId.title"),
+                        Component.translatable("packAction.copyId.description",
+                                Component.literal("C").withStyle(ChatFormatting.BOLD)),
+                        Component.translatable("packAction.copyId.success")) {
 
-            @Override
-            boolean execute(Minecraft minecraft, PackSelectionScreen screen) {
-                MouseHandler mouseHandler = minecraft.mouseHandler;
-                Window window = minecraft.getWindow();
-                int mouseX = (int) (mouseHandler.xpos() * window.getGuiScaledWidth() / window.getScreenWidth());
-                int mouseY = (int) (mouseHandler.ypos() * window.getGuiScaledHeight() / window.getScreenHeight());
-                Optional<String> hoveredPackId = getHoveredPackId(screen, mouseX, mouseY);
-                hoveredPackId.ifPresent(minecraft.keyboardHandler::setClipboard);
-                return hoveredPackId.isPresent();
-            }
-        });
-        PACK_ACTIONS.put(InputConstants.KEY_D, new PackAction(Component.translatable("packAction.toggleDebug.title"), Component.translatable("packAction.toggleDebug.description", Component.literal("D").withStyle(ChatFormatting.BOLD)), Component.translatable("packAction.toggleDebug.success")) {
+                    @Override
+                    boolean execute(Minecraft minecraft, PackSelectionScreen screen) {
+                        MouseHandler mouseHandler = minecraft.mouseHandler;
+                        Window window = minecraft.getWindow();
+                        int mouseX = (int) (mouseHandler.xpos() * window.getGuiScaledWidth() / window.getScreenWidth());
+                        int mouseY = (int) (mouseHandler.ypos() * window.getGuiScaledHeight() /
+                                window.getScreenHeight());
+                        Optional<String> hoveredPackId = getHoveredPackId(screen, mouseX, mouseY);
+                        hoveredPackId.ifPresent(minecraft.keyboardHandler::setClipboard);
+                        return hoveredPackId.isPresent();
+                    }
+                });
+        PACK_ACTIONS.put(InputConstants.KEY_D,
+                new PackAction(Component.translatable("packAction.toggleDebug.title"),
+                        Component.translatable("packAction.toggleDebug.description",
+                                Component.literal("D").withStyle(ChatFormatting.BOLD)),
+                        Component.translatable("packAction.toggleDebug.success")) {
 
-            @Override
-            boolean execute(Minecraft minecraft, PackSelectionScreen screen) {
-                debugTooltips = !debugTooltips;
-                return true;
-            }
-        });
-        PACK_ACTIONS.put(InputConstants.KEY_R, new PackAction(Component.translatable("packAction.reloadSettings.title"), Component.translatable("packAction.reloadSettings.description", Component.literal("R").withStyle(ChatFormatting.BOLD)), Component.translatable("packAction.reloadSettings.success")) {
+                    @Override
+                    boolean execute(Minecraft minecraft, PackSelectionScreen screen) {
+                        debugTooltips = !debugTooltips;
+                        return true;
+                    }
+                });
+        PACK_ACTIONS.put(InputConstants.KEY_R,
+                new PackAction(Component.translatable("packAction.reloadSettings.title"),
+                        Component.translatable("packAction.reloadSettings.description",
+                                Component.literal("R").withStyle(ChatFormatting.BOLD)),
+                        Component.translatable("packAction.reloadSettings.success")) {
 
-            @Override
-            boolean execute(Minecraft minecraft, PackSelectionScreen screen) {
-                ResourceOverridesManager.load();
-                screen.init(minecraft, minecraft.getWindow().getGuiScaledWidth(), minecraft.getWindow().getGuiScaledHeight());
-                return true;
-            }
-        });
-        PACK_ACTIONS.put(InputConstants.KEY_T, new PackAction(Component.translatable("packAction.restoreDefaults.title"), Component.translatable("packAction.restoreDefaults.description", Component.literal("T").withStyle(ChatFormatting.BOLD)), Component.translatable("packAction.restoreDefaults.success")) {
+                    @Override
+                    boolean execute(Minecraft minecraft, PackSelectionScreen screen) {
+                        ResourceOverridesManager.load();
+                        screen.init(minecraft,
+                                minecraft.getWindow().getGuiScaledWidth(),
+                                minecraft.getWindow().getGuiScaledHeight());
+                        return true;
+                    }
+                });
+        PACK_ACTIONS.put(InputConstants.KEY_T,
+                new PackAction(Component.translatable("packAction.restoreDefaults.title"),
+                        Component.translatable("packAction.restoreDefaults.description",
+                                Component.literal("T").withStyle(ChatFormatting.BOLD)),
+                        Component.translatable("packAction.restoreDefaults.success")) {
 
-            @Override
-            boolean execute(Minecraft minecraft, PackSelectionScreen screen) {
-                minecraft.getResourcePackRepository().setSelected(ResourceOverridesManager.getDefaultResourcePacks(true));
-                screen.model.selected.clear();
-                screen.model.selected.addAll(minecraft.getResourcePackRepository().getSelectedPacks());
-                Collections.reverse(screen.model.selected);
-                screen.init(minecraft, minecraft.getWindow().getGuiScaledWidth(), minecraft.getWindow().getGuiScaledHeight());
-                return true;
-            }
-        });
+                    @Override
+                    boolean execute(Minecraft minecraft, PackSelectionScreen screen) {
+                        minecraft.getResourcePackRepository()
+                                .setSelected(ResourceOverridesManager.getDefaultResourcePacks(true));
+                        screen.model.selected.clear();
+                        screen.model.selected.addAll(minecraft.getResourcePackRepository().getSelectedPacks());
+                        Collections.reverse(screen.model.selected);
+                        screen.init(minecraft,
+                                minecraft.getWindow().getGuiScaledWidth(),
+                                minecraft.getWindow().getGuiScaledHeight());
+                        return true;
+                    }
+                });
     }
 
     public static void onScreen$Render$Post(Minecraft minecraft, PackSelectionScreen screen, GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
@@ -142,12 +164,16 @@ public class PackActionsHandler {
             this.lastPressTime = this.pressTime;
             if (this.pressTime > 0) {
                 if (this.toast == null) {
-                    this.toast = new TutorialToast(TutorialToast.Icons.MOVEMENT_KEYS, this.title, this.description, true);
-                    minecraft.getToasts().addToast(this.toast);
+                    this.toast = new TutorialToast(TutorialToast.Icons.MOVEMENT_KEYS,
+                            this.title,
+                            this.description,
+                            true);
+                    minecraft.getToastManager().addToast(this.toast);
                 }
                 if (this.pressTime < 20) {
                     this.toast.updateProgress(Mth.clamp(this.pressTime / 20.0F, 0.0F, 1.0F));
-                } else if (!this.wasExecuted && minecraft.screen instanceof PackSelectionScreen screen && screen.model.repository == minecraft.getResourcePackRepository()) {
+                } else if (!this.wasExecuted && minecraft.screen instanceof PackSelectionScreen screen &&
+                        screen.model.repository == minecraft.getResourcePackRepository()) {
                     if (this.execute(minecraft, screen)) {
                         this.finish(minecraft);
                     }
@@ -180,7 +206,7 @@ public class PackActionsHandler {
         private void finish(Minecraft minecraft) {
             if (this.successToast != null) this.successToast.hide();
             this.successToast = new TutorialToast(TutorialToast.Icons.MOVEMENT_KEYS, this.title, this.success, true);
-            minecraft.getToasts().addToast(this.successToast);
+            minecraft.getToastManager().addToast(this.successToast);
             this.successTicks = 80;
             this.successToast.updateProgress(1.0F);
         }
