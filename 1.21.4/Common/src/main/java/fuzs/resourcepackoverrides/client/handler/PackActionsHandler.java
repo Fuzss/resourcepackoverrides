@@ -164,7 +164,8 @@ public class PackActionsHandler {
             this.lastPressTime = this.pressTime;
             if (this.pressTime > 0) {
                 if (this.toast == null) {
-                    this.toast = new TutorialToast(TutorialToast.Icons.MOVEMENT_KEYS,
+                    this.toast = new TutorialToast(minecraft.font,
+                            TutorialToast.Icons.MOVEMENT_KEYS,
                             this.title,
                             this.description,
                             true);
@@ -205,7 +206,11 @@ public class PackActionsHandler {
 
         private void finish(Minecraft minecraft) {
             if (this.successToast != null) this.successToast.hide();
-            this.successToast = new TutorialToast(TutorialToast.Icons.MOVEMENT_KEYS, this.title, this.success, true);
+            this.successToast = new TutorialToast(minecraft.font,
+                    TutorialToast.Icons.MOVEMENT_KEYS,
+                    this.title,
+                    this.success,
+                    true);
             minecraft.getToastManager().addToast(this.successToast);
             this.successTicks = 80;
             this.successToast.updateProgress(1.0F);

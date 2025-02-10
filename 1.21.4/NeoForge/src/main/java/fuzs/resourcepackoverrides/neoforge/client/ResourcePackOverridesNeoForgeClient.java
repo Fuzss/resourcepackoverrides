@@ -23,11 +23,10 @@ public class ResourcePackOverridesNeoForgeClient {
     }
 
     private static void registerLoadingHandlers(IEventBus eventBus) {
-        eventBus.addListener((final GatherDataEvent evt) -> {
+        eventBus.addListener((final GatherDataEvent.Client evt) -> {
             evt.getGenerator()
-                    .addProvider(evt.includeClient(),
-                            new ModLanguageProvider(ResourcePackOverrides.MOD_ID, evt.getGenerator().getPackOutput())
-                    );
+                    .addProvider(true,
+                            new ModLanguageProvider(ResourcePackOverrides.MOD_ID, evt.getGenerator().getPackOutput()));
         });
     }
 
@@ -39,8 +38,7 @@ public class ResourcePackOverridesNeoForgeClient {
                         evt.getGuiGraphics(),
                         evt.getMouseX(),
                         evt.getMouseY(),
-                        evt.getPartialTick()
-                );
+                        evt.getPartialTick());
             }
         });
         eventBus.addListener((final ScreenEvent.KeyPressed.Post evt) -> {
@@ -49,8 +47,7 @@ public class ResourcePackOverridesNeoForgeClient {
                         screen,
                         evt.getKeyCode(),
                         evt.getScanCode(),
-                        evt.getModifiers()
-                );
+                        evt.getModifiers());
             }
         });
         eventBus.addListener((final ClientTickEvent.Post evt) -> {
