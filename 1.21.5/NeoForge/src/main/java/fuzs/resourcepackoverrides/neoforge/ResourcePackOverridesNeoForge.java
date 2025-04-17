@@ -7,7 +7,7 @@ import net.neoforged.fml.common.Mod;
 @Mod(ResourcePackOverrides.MOD_ID)
 public class ResourcePackOverridesNeoForge {
 
-    public ResourcePackOverridesNeoForge(ModContainer modContainer) {
+    public ResourcePackOverridesNeoForge() {
         // NO-OP
     }
 }

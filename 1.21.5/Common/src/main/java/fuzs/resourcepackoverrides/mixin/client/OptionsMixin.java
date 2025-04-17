@@ -1,4 +1,4 @@
-package fuzs.resourcepackoverrides.fabric.mixin.client;
+package fuzs.resourcepackoverrides.mixin.client;
 
 import fuzs.resourcepackoverrides.client.data.ResourceOverridesManager;
 import net.minecraft.client.Options;
@@ -15,7 +15,7 @@ import java.util.List;
 
 // Run after Fabric Api, or we might break mod resource packs being added.
 @Mixin(value = Options.class, priority = 2000)
-abstract class OptionsFabricMixin {
+abstract class OptionsMixin {
     @Shadow
     public List<String> resourcePacks;
     @Shadow
