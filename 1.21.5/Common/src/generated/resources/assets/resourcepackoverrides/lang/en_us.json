@@ -1,0 +1,14 @@
+{
+  "packAction.copyId.description": "Hold %s to copy",
+  "packAction.copyId.success": "Copied!",
+  "packAction.copyId.title": "Copy Pack Id",
+  "packAction.reloadSettings.description": "Hold %s to reload",
+  "packAction.reloadSettings.success": "Reloaded!",
+  "packAction.reloadSettings.title": "Reload Settings",
+  "packAction.restoreDefaults.description": "Hold %s to restore",
+  "packAction.restoreDefaults.success": "Restored!",
+  "packAction.restoreDefaults.title": "Restore Default Packs",
+  "packAction.toggleDebug.description": "Hold %s to toggle",
+  "packAction.toggleDebug.success": "Toggled!",
+  "packAction.toggleDebug.title": "Toggle Pack Ids"
+}
