@@ -3,7 +3,6 @@ package fuzs.resourcepackoverrides.client.handler;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.platform.Window;
 import fuzs.resourcepackoverrides.client.data.ResourceOverridesManager;
-import fuzs.resourcepackoverrides.services.ClientAbstractions;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.ChatFormatting;
@@ -38,8 +37,8 @@ public class PackActionsHandler {
                         MouseHandler mouseHandler = minecraft.mouseHandler;
                         Window window = minecraft.getWindow();
                         int mouseX = (int) (mouseHandler.xpos() * window.getGuiScaledWidth() / window.getScreenWidth());
-                        int mouseY = (int) (mouseHandler.ypos() * window.getGuiScaledHeight() /
-                                window.getScreenHeight());
+                        int mouseY = (int) (mouseHandler.ypos() * window.getGuiScaledHeight()
+                                / window.getScreenHeight());
                         Optional<String> hoveredPackId = getHoveredPackId(screen, mouseX, mouseY);
                         hoveredPackId.ifPresent(minecraft.keyboardHandler::setClipboard);
                         return hoveredPackId.isPresent();
@@ -96,7 +95,9 @@ public class PackActionsHandler {
     public static void onScreen$Render$Post(Minecraft minecraft, PackSelectionScreen screen, GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         if (debugTooltips && screen.model.repository == minecraft.getResourcePackRepository()) {
             getHoveredPackId(screen, mouseX, mouseY).map(Component::literal).ifPresent(component -> {
-                guiGraphics.renderTooltip(ClientAbstractions.INSTANCE.getScreenFont(screen), component, mouseX, mouseY);
+                guiGraphics.setTooltipForNextFrame(screen.getFont(), component, mouseX, mouseY);
+                // hack fix, as this does not render otherwise for some reason
+                guiGraphics.renderDeferredTooltip();
             });
         }
     }
@@ -173,8 +174,8 @@ public class PackActionsHandler {
                 }
                 if (this.pressTime < 20) {
                     this.toast.updateProgress(Mth.clamp(this.pressTime / 20.0F, 0.0F, 1.0F));
-                } else if (!this.wasExecuted && minecraft.screen instanceof PackSelectionScreen screen &&
-                        screen.model.repository == minecraft.getResourcePackRepository()) {
+                } else if (!this.wasExecuted && minecraft.screen instanceof PackSelectionScreen screen
+                        && screen.model.repository == minecraft.getResourcePackRepository()) {
                     if (this.execute(minecraft, screen)) {
                         this.finish(minecraft);
                     }

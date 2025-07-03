@@ -1,17 +1,21 @@
 package fuzs.resourcepackoverrides.client.data;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.mojang.serialization.JsonOps;
 import fuzs.resourcepackoverrides.ResourcePackOverrides;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackCompatibility;
 import net.minecraft.util.GsonHelper;
+import net.minecraft.util.StrictJsonParser;
 import org.apache.commons.compress.utils.Lists;
 import org.jetbrains.annotations.Nullable;
 
@@ -58,7 +62,9 @@ public class ResourceOverridesManager {
         JsonObject jsonObject = GsonHelper.convertToJsonObject(jsonElement, "resource pack override");
         String schemaVersion = GsonHelper.getAsString(jsonObject, "schema_version", "1");
         if (!schemaVersion.equals(SCHEMA_VERSION)) {
-            ResourcePackOverrides.LOGGER.warn("Outdated config schema! Config might not work correctly. Current schema is {}.", SCHEMA_VERSION);
+            ResourcePackOverrides.LOGGER.warn(
+                    "Outdated config schema! Config might not work correctly. Current schema is {}.",
+                    SCHEMA_VERSION);
         }
         failedReloads = GsonHelper.getAsInt(jsonObject, "failed_reloads_per_session", 5);
         if (jsonObject.has("default_packs")) {
@@ -107,8 +113,8 @@ public class ResourceOverridesManager {
 
     private static PackSelectionOverride deserializeOverrideEntry(JsonElement jsonElement) {
         JsonObject jsonObject = GsonHelper.convertToJsonObject(jsonElement, "resource pack override");
-        Component title = getOptionalString(jsonObject, "title", s -> Component.Serializer.fromJson(s, RegistryAccess.EMPTY));
-        Component description = getOptionalString(jsonObject, "description", s -> Component.Serializer.fromJson(s, RegistryAccess.EMPTY));
+        Component title = getOptionalString(jsonObject, "title", ResourceOverridesManager::parseComponent);
+        Component description = getOptionalString(jsonObject, "description", ResourceOverridesManager::parseComponent);
         Pack.Position defaultPosition = getOptionalString(jsonObject, "default_position", s -> {
             try {
                 return Pack.Position.valueOf(s.toUpperCase(Locale.ROOT));
@@ -116,11 +122,32 @@ public class ResourceOverridesManager {
                 return null;
             }
         });
-        PackCompatibility compatible = GsonHelper.getAsBoolean(jsonObject, "force_compatible", false) ? PackCompatibility.COMPATIBLE : null;
+        PackCompatibility compatible =
+                GsonHelper.getAsBoolean(jsonObject, "force_compatible", false) ? PackCompatibility.COMPATIBLE : null;
         Boolean fixedPosition = getOptionalFlag(jsonObject, "fixed_position");
         Boolean required = GsonHelper.getAsBoolean(jsonObject, "required", false) ? true : null;
         Boolean hidden = GsonHelper.getAsBoolean(jsonObject, "hidden", false) ? true : null;
-        return new PackSelectionOverride(title, description, defaultPosition, compatible, fixedPosition, required, hidden);
+        return new PackSelectionOverride(title,
+                description,
+                defaultPosition,
+                compatible,
+                fixedPosition,
+                required,
+                hidden);
+    }
+
+    /**
+     * @see net.minecraft.server.dedicated.DedicatedServerProperties#parseResourcePackPrompt(String)
+     */
+    @Nullable
+    private static Component parseComponent(String json) {
+        if (!Strings.isNullOrEmpty(json)) {
+            JsonElement jsonElement = StrictJsonParser.parse(json);
+            return ComponentSerialization.CODEC.parse(RegistryAccess.EMPTY.createSerializationContext(JsonOps.INSTANCE),
+                    jsonElement).resultOrPartial().orElse(null);
+        }
+
+        return null;
     }
 
     @Nullable
