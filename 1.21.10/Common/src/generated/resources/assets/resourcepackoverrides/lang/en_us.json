@@ -1,0 +1,14 @@
+{
+  "pack_action.resourcepackoverrides.copy_id.description": "Hold %s to copy",
+  "pack_action.resourcepackoverrides.copy_id.success": "Copied!",
+  "pack_action.resourcepackoverrides.copy_id.title": "Copy Pack Id",
+  "pack_action.resourcepackoverrides.reload_settings.description": "Hold %s to reload",
+  "pack_action.resourcepackoverrides.reload_settings.success": "Reloaded!",
+  "pack_action.resourcepackoverrides.reload_settings.title": "Reload Settings",
+  "pack_action.resourcepackoverrides.restore_defaults.description": "Hold %s to restore",
+  "pack_action.resourcepackoverrides.restore_defaults.success": "Restored!",
+  "pack_action.resourcepackoverrides.restore_defaults.title": "Restore Default Packs",
+  "pack_action.resourcepackoverrides.toggle_debug.description": "Hold %s to toggle",
+  "pack_action.resourcepackoverrides.toggle_debug.success": "Toggled!",
+  "pack_action.resourcepackoverrides.toggle_debug.title": "Toggle Pack Ids"
+}

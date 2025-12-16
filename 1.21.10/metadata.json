@@ -1,0 +1,46 @@
+{
+    "mod": {
+        "id": "resourcepackoverrides",
+        "group": "fuzs.resourcepackoverrides",
+        "name": "Resource Pack Overrides",
+        "version": "21.11.0",
+        "authors": [
+            "Fuzs"
+        ],
+        "description": "Ensures important resource packs stay always active and helps clean up the pack selection screen.",
+        "license": "MPL-2.0"
+    },
+    "dependencies": [
+        {
+            "name": "fabricapi",
+            "type": "required",
+            "platforms": [
+                "fabric"
+            ]
+        }
+    ],
+    "links": [
+        {
+            "name": "github",
+            "slug": "resourcepackoverrides"
+        },
+        {
+            "name": "curseforge",
+            "slug": "resource-pack-overrides",
+            "id": "832644"
+        },
+        {
+            "name": "modrinth",
+            "slug": "resource-pack-overrides",
+            "id": "YsFycamt"
+        }
+    ],
+    "environments": {
+        "client": "required",
+        "server": "unsupported"
+    },
+    "platforms": [
+        "fabric",
+        "neoforge"
+    ]
+}
