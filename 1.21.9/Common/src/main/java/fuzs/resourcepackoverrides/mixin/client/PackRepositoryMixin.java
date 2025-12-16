@@ -2,7 +2,7 @@ package fuzs.resourcepackoverrides.mixin.client;
 
 import com.google.common.collect.Lists;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import fuzs.resourcepackoverrides.client.data.PackSelectionOverride;
+import fuzs.resourcepackoverrides.config.PackOverrides;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackRepository;
@@ -23,20 +23,27 @@ abstract class PackRepositoryMixin {
     @Inject(method = "reload", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/packs/repository/PackRepository;rebuildSelected(Ljava/util/Collection;)Ljava/util/List;"))
     public void reload(CallbackInfo callback) {
         // Wrap only on resource pack selection screen, we don't want to mess with data packs.
-        if (PackRepository.class.cast(this) != Minecraft.getInstance().getResourcePackRepository()) return;
-        this.available.values().forEach(PackSelectionOverride::applyPackOverride);
+        if (PackRepository.class.cast(this) != Minecraft.getInstance().getResourcePackRepository()) {
+            return;
+        }
+
+        this.available.values().forEach(PackOverrides::applyPackOverride);
     }
 
     @ModifyReturnValue(method = "rebuildSelected", at = @At("TAIL"))
     private List<Pack> rebuildSelected(List<Pack> packs) {
         // Wrap only on resource pack selection screen, we don't want to mess with data packs.
-        if (PackRepository.class.cast(this) != Minecraft.getInstance().getResourcePackRepository()) return packs;
+        if (PackRepository.class.cast(this) != Minecraft.getInstance().getResourcePackRepository()) {
+            return packs;
+        }
+
         int i = 0;
         for (; i < packs.size(); i++) {
             // the user has moved folder resource packs below vanilla for some reason, don't change anything
             if (packs.get(i).getDefaultPosition() != Pack.Position.BOTTOM) return packs;
             if (packs.get(i).getId().equals("vanilla")) break;
         }
+
         if (i != 0) {
             // there are some bottom packs below vanilla, this is pointless, move vanilla to the bottom
             // we do this mainly so a server provided pack can be moved to the bottom above vanilla automatically,
@@ -44,6 +51,7 @@ abstract class PackRepositoryMixin {
             packs = Lists.newArrayList(packs);
             packs.add(0, packs.remove(i));
         }
+
         return packs;
     }
 }

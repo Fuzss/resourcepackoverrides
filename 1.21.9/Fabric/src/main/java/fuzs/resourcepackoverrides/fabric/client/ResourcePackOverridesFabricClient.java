@@ -10,6 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.packs.PackSelectionScreen;
+import net.minecraft.client.input.KeyEvent;
 
 public class ResourcePackOverridesFabricClient implements ClientModInitializer {
 
@@ -30,14 +31,11 @@ public class ResourcePackOverridesFabricClient implements ClientModInitializer {
                                     mouseY,
                                     partialTick);
                         });
-                ScreenKeyboardEvents.afterKeyPress(screen)
-                        .register((Screen screen1, int keyCode, int scanCode, int modifiers) -> {
-                            PackActionsHandler.onKeyPressed$Post(Screens.getClient(packSelectionScreen),
-                                    packSelectionScreen,
-                                    keyCode,
-                                    scanCode,
-                                    modifiers);
-                        });
+                ScreenKeyboardEvents.afterKeyPress(screen).register((Screen screenX, KeyEvent keyEvent) -> {
+                    PackActionsHandler.onKeyPressed$Post(Screens.getClient(packSelectionScreen),
+                            packSelectionScreen,
+                            keyEvent);
+                });
             }
         });
         ClientTickEvents.END_CLIENT_TICK.register(PackActionsHandler::onClientTick$End);

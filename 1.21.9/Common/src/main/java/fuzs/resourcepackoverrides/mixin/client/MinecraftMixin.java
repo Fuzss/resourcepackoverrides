@@ -1,6 +1,6 @@
 package fuzs.resourcepackoverrides.mixin.client;
 
-import fuzs.resourcepackoverrides.client.data.ResourceOverridesManager;
+import fuzs.resourcepackoverrides.config.ResourceOverridesManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.packs.repository.PackRepository;

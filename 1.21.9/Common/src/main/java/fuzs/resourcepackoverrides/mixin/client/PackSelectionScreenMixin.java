@@ -1,7 +1,6 @@
 package fuzs.resourcepackoverrides.mixin.client;
 
-import fuzs.resourcepackoverrides.client.data.PackSelectionOverride;
-import fuzs.resourcepackoverrides.client.data.ResourceOverridesManager;
+import fuzs.resourcepackoverrides.config.ResourceOverridesManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.packs.PackSelectionModel;
@@ -25,12 +24,14 @@ abstract class PackSelectionScreenMixin extends Screen {
         super(title);
     }
 
-    @ModifyVariable(method = "updateList", at = @At("HEAD"), argsOnly = true)
-    private Stream<PackSelectionModel.Entry> updateList(Stream<PackSelectionModel.Entry> models) {
-        if (this.model.repository != Minecraft.getInstance().getResourcePackRepository()) return models;
-        return models.filter(pack -> {
-            PackSelectionOverride override = ResourceOverridesManager.getOverride(pack.getId());
-            return override.hidden() == null || !override.hidden();
-        });
+    @ModifyVariable(method = "filterEntries", at = @At("HEAD"), argsOnly = true)
+    private Stream<PackSelectionModel.Entry> filterEntries(Stream<PackSelectionModel.Entry> stream) {
+        if (this.model.repository != Minecraft.getInstance().getResourcePackRepository()) {
+            return stream;
+        } else {
+            return stream.filter((PackSelectionModel.Entry entry) -> {
+                return ResourceOverridesManager.getOverride(entry.getId()).notHidden();
+            });
+        }
     }
 }
