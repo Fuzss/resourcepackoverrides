@@ -2,7 +2,7 @@ package fuzs.resourcepackoverrides.fabric.services;
 
 import com.google.common.base.Predicates;
 import fuzs.resourcepackoverrides.services.ClientAbstractions;
-import net.fabricmc.fabric.impl.resource.pack.FabricPack;
+import net.fabricmc.fabric.impl.resource.loader.FabricResourcePackProfile;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.packs.repository.Pack;
@@ -27,7 +27,7 @@ public final class FabricClientAbstractions implements ClientAbstractions {
     @Override
     public boolean isPackHidden(Pack pack) {
         // Fabric already has all the infrastructure for this flag implemented (which is quite a lot!), so we use it despite it being internal.
-        return ((FabricPack) pack).fabric$isHidden();
+        return ((FabricResourcePackProfile) pack).fabric_isHidden();
     }
 
     @Override
@@ -35,7 +35,7 @@ public final class FabricClientAbstractions implements ClientAbstractions {
         // Fabric Api checks this using reference equality against an internally stored field when a pack is not supposed to be hidden.
         // We do not have access to that field, so we only support making the pack hidden, which is fine.
         if (hidden) {
-            ((FabricPack) pack).fabric$setParentsPredicate(Predicates.alwaysTrue());
+            ((FabricResourcePackProfile) pack).fabric_setParentsPredicate(Predicates.alwaysTrue());
         }
     }
 

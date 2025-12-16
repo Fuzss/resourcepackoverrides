@@ -7,9 +7,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.toasts.TutorialToast;
 import net.minecraft.client.gui.screens.packs.PackSelectionScreen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import org.jspecify.annotations.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class PackAction {
     private final int keyCode;
@@ -30,7 +30,7 @@ public abstract class PackAction {
         this(keyCode, ResourcePackOverrides.id(name));
     }
 
-    public PackAction(int keyCode, Identifier resourceLocation) {
+    public PackAction(int keyCode, ResourceLocation resourceLocation) {
         this(keyCode,
                 Component.translatable(resourceLocation.toLanguageKey("pack_action", "title")),
                 Component.translatable(resourceLocation.toLanguageKey("pack_action", "description"),

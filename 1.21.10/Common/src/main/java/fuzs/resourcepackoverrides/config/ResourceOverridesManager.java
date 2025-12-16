@@ -18,7 +18,7 @@ import net.minecraft.server.packs.repository.PackCompatibility;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.util.StrictJsonParser;
 import org.apache.commons.compress.utils.Lists;
-import org.jspecify.annotations.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.FileReader;

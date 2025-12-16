@@ -6,7 +6,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import fuzs.resourcepackoverrides.ResourcePackOverrides;
 import fuzs.resourcepackoverrides.services.ClientAbstractions;
-import org.jspecify.annotations.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.*;
 import java.util.List;

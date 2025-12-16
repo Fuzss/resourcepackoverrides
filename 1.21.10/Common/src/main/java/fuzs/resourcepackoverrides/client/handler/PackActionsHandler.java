@@ -122,7 +122,7 @@ public class PackActionsHandler {
     }
 
     public static void onAfterKeyPressed(Minecraft minecraft, PackSelectionScreen screen, KeyEvent keyEvent) {
-        if (screen.model.repository == minecraft.getResourcePackRepository() && keyEvent.hasControlDownWithQuirk()) {
+        if (screen.model.repository == minecraft.getResourcePackRepository() && keyEvent.hasControlDown()) {
             PackAction packAction = PACK_ACTIONS.get(keyEvent.key());
             if (packAction != null) {
                 packAction.update();
