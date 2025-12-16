@@ -1,16 +1,17 @@
-package fuzs.resourcepackoverrides.client.data;
+package fuzs.resourcepackoverrides.server.packs;
 
+import fuzs.resourcepackoverrides.config.ResourceOverridesManager;
 import fuzs.resourcepackoverrides.services.ClientAbstractions;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.packs.PackLocationInfo;
 import net.minecraft.server.packs.PackSelectionConfig;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackCompatibility;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public record PackSelectionOverride(@Nullable Component title,
                                     @Nullable Component description,
-                                    @Nullable Pack.Position defaultPosition,
+                                    Pack.@Nullable Position defaultPosition,
                                     @Nullable PackCompatibility compatibility,
                                     @Nullable Boolean fixedPosition,
                                     @Nullable Boolean required,
@@ -22,8 +23,7 @@ public record PackSelectionOverride(@Nullable Component title,
             null,
             null,
             null,
-            null
-    );
+            null);
 
     public static void applyPackOverride(Pack pack) {
         ResourceOverridesManager.getOverride(pack.getId()).apply(pack);
@@ -34,9 +34,9 @@ public record PackSelectionOverride(@Nullable Component title,
             pack.location = new PackLocationInfo(pack.location.id(),
                     this.title,
                     pack.location.source(),
-                    pack.location.knownPackInfo()
-            );
+                    pack.location.knownPackInfo());
         }
+
         if (this.required() != null || this.fixedPosition() != null || this.defaultPosition() != null) {
             boolean required = this.required != null ? this.required : pack.selectionConfig.required();
             Pack.Position defaultPosition =
@@ -45,6 +45,7 @@ public record PackSelectionOverride(@Nullable Component title,
                     this.fixedPosition != null ? this.fixedPosition : pack.selectionConfig.fixedPosition();
             pack.selectionConfig = new PackSelectionConfig(required, defaultPosition, fixedPosition);
         }
+
         if (this.description() != null || this.compatibility() != null || this.hidden() != null) {
             Component description = this.description != null ? this.description : pack.getDescription();
             PackCompatibility compatibility =
@@ -54,8 +55,8 @@ public record PackSelectionOverride(@Nullable Component title,
                     compatibility,
                     pack.getRequestedFeatures(),
                     pack.metadata.overlays(),
-                    hidden
-            );
+                    hidden);
+            ClientAbstractions.INSTANCE.setPackHidden(pack, hidden);
         }
     }
 }

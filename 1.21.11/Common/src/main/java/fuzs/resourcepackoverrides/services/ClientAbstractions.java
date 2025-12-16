@@ -11,9 +11,17 @@ import java.util.List;
 public interface ClientAbstractions {
     ClientAbstractions INSTANCE = ServiceProviderLoader.load(ClientAbstractions.class);
 
+    ModLoader getModLoader();
+
     Path getConfigDirectory();
 
     boolean isPackHidden(Pack pack);
 
-    Pack.Metadata createPackInfo(Component description, PackCompatibility compatibility, FeatureFlagSet features, List<String> overlays, boolean hidden);
+    void setPackHidden(Pack pack, boolean hidden);
+
+    Pack.Metadata createPackInfo(Component description, PackCompatibility compatibility, FeatureFlagSet features, List<String> overlays, boolean isHidden);
+
+    enum ModLoader {
+        FABRIC, NEOFORGE
+    }
 }

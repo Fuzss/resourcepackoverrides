@@ -1,4 +1,4 @@
-package fuzs.resourcepackoverrides.client.data;
+package fuzs.resourcepackoverrides.config;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
@@ -9,6 +9,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.JsonOps;
 import fuzs.resourcepackoverrides.ResourcePackOverrides;
+import fuzs.resourcepackoverrides.server.packs.PackSelectionOverride;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
@@ -17,7 +18,7 @@ import net.minecraft.server.packs.repository.PackCompatibility;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.util.StrictJsonParser;
 import org.apache.commons.compress.utils.Lists;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.io.File;
 import java.io.FileReader;
@@ -60,7 +61,7 @@ public class ResourceOverridesManager {
     private static void deserializeAllOverrides(FileReader reader) {
         JsonElement jsonElement = JsonConfigFileUtil.GSON.fromJson(reader, JsonElement.class);
         JsonObject jsonObject = GsonHelper.convertToJsonObject(jsonElement, "resource pack override");
-        String schemaVersion = GsonHelper.getAsString(jsonObject, "schema_version", "1");
+        String schemaVersion = GsonHelper.getAsString(jsonObject, "schema_version", SCHEMA_VERSION);
         if (!schemaVersion.equals(SCHEMA_VERSION)) {
             ResourcePackOverrides.LOGGER.warn(
                     "Outdated config schema! Config might not work correctly. Current schema is {}.",

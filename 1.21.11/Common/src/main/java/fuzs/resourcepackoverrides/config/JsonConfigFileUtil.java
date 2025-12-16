@@ -1,4 +1,4 @@
-package fuzs.resourcepackoverrides.client.data;
+package fuzs.resourcepackoverrides.config;
 
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
@@ -6,7 +6,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import fuzs.resourcepackoverrides.ResourcePackOverrides;
 import fuzs.resourcepackoverrides.services.ClientAbstractions;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.io.*;
 import java.util.List;
@@ -16,6 +16,7 @@ import java.util.function.Predicate;
 /**
  * handles loading and saving of json config files
  */
+@Deprecated
 public class JsonConfigFileUtil {
     /**
      * gson builder instance, no html escaping to allow certain chars

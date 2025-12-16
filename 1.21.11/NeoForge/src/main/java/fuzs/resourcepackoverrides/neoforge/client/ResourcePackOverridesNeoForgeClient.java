@@ -23,35 +23,32 @@ public class ResourcePackOverridesNeoForgeClient {
     }
 
     private static void registerLoadingHandlers(IEventBus eventBus) {
-        eventBus.addListener((final GatherDataEvent.Client evt) -> {
-            evt.getGenerator()
+        eventBus.addListener((final GatherDataEvent.Client event) -> {
+            event.getGenerator()
                     .addProvider(true,
-                            new ModLanguageProvider(ResourcePackOverrides.MOD_ID, evt.getGenerator().getPackOutput()));
+                            new ModLanguageProvider(ResourcePackOverrides.MOD_ID,
+                                    event.getGenerator().getPackOutput()));
         });
     }
 
     private static void registerEventHandlers(IEventBus eventBus) {
-        eventBus.addListener((final ScreenEvent.Render.Post evt) -> {
-            if (evt.getScreen() instanceof PackSelectionScreen screen) {
-                PackActionsHandler.onScreen$Render$Post(screen.getMinecraft(),
+        eventBus.addListener((final ScreenEvent.Render.Post event) -> {
+            if (event.getScreen() instanceof PackSelectionScreen screen) {
+                PackActionsHandler.onBeforeRenderScreen(screen.getMinecraft(),
                         screen,
-                        evt.getGuiGraphics(),
-                        evt.getMouseX(),
-                        evt.getMouseY(),
-                        evt.getPartialTick());
+                        event.getGuiGraphics(),
+                        event.getMouseX(),
+                        event.getMouseY(),
+                        event.getPartialTick());
             }
         });
-        eventBus.addListener((final ScreenEvent.KeyPressed.Post evt) -> {
-            if (evt.getScreen() instanceof PackSelectionScreen screen) {
-                PackActionsHandler.onKeyPressed$Post(screen.getMinecraft(),
-                        screen,
-                        evt.getKeyCode(),
-                        evt.getScanCode(),
-                        evt.getModifiers());
+        eventBus.addListener((final ScreenEvent.KeyPressed.Post event) -> {
+            if (event.getScreen() instanceof PackSelectionScreen screen) {
+                PackActionsHandler.onAfterKeyPressed(screen.getMinecraft(), screen, event.getKeyEvent());
             }
         });
-        eventBus.addListener((final ClientTickEvent.Post evt) -> {
-            PackActionsHandler.onClientTick$End(Minecraft.getInstance());
+        eventBus.addListener((final ClientTickEvent.Post event) -> {
+            PackActionsHandler.onEndClientTick(Minecraft.getInstance());
         });
     }
 }

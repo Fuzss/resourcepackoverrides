@@ -10,6 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.packs.PackSelectionScreen;
+import net.minecraft.client.input.KeyEvent;
 
 public class ResourcePackOverridesFabricClient implements ClientModInitializer {
 
@@ -20,26 +21,23 @@ public class ResourcePackOverridesFabricClient implements ClientModInitializer {
 
     private static void registerEventHandlers() {
         ScreenEvents.AFTER_INIT.register((Minecraft client, Screen screen, int scaledWidth, int scaledHeight) -> {
-            if (screen instanceof PackSelectionScreen packSelectionScreen) {
+            if (screen instanceof PackSelectionScreen) {
                 ScreenEvents.afterRender(screen)
-                        .register((Screen screen1, GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) -> {
-                            PackActionsHandler.onScreen$Render$Post(Screens.getClient(packSelectionScreen),
-                                    packSelectionScreen,
+                        .register((Screen packSelectionScreen, GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) -> {
+                            PackActionsHandler.onBeforeRenderScreen(Screens.getClient(packSelectionScreen),
+                                    (PackSelectionScreen) packSelectionScreen,
                                     guiGraphics,
                                     mouseX,
                                     mouseY,
                                     partialTick);
                         });
-                ScreenKeyboardEvents.afterKeyPress(screen)
-                        .register((Screen screen1, int keyCode, int scanCode, int modifiers) -> {
-                            PackActionsHandler.onKeyPressed$Post(Screens.getClient(packSelectionScreen),
-                                    packSelectionScreen,
-                                    keyCode,
-                                    scanCode,
-                                    modifiers);
-                        });
+                ScreenKeyboardEvents.afterKeyPress(screen).register((Screen packSelectionScreen, KeyEvent keyEvent) -> {
+                    PackActionsHandler.onAfterKeyPressed(Screens.getClient(packSelectionScreen),
+                            (PackSelectionScreen) packSelectionScreen,
+                            keyEvent);
+                });
             }
         });
-        ClientTickEvents.END_CLIENT_TICK.register(PackActionsHandler::onClientTick$End);
+        ClientTickEvents.END_CLIENT_TICK.register(PackActionsHandler::onEndClientTick);
     }
 }

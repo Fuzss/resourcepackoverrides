@@ -8,3 +8,4 @@ mutable field   net/minecraft/server/packs/repository/Pack  selectionConfig Lnet
 accessible  field   net/minecraft/client/gui/screens/packs/PackSelectionScreen  model   Lnet/minecraft/client/gui/screens/packs/PackSelectionModel;
 accessible  field   net/minecraft/client/gui/screens/packs/PackSelectionModel   repository  Lnet/minecraft/server/packs/repository/PackRepository;
 accessible  field   net/minecraft/client/gui/screens/packs/PackSelectionModel   selected    Ljava/util/List;
+accessible  method  net/minecraft/client/gui/screens/packs/PackSelectionScreen  reload  ()V

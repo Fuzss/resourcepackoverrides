@@ -1,5 +1,6 @@
 package fuzs.resourcepackoverrides.neoforge.services;
 
+import fuzs.resourcepackoverrides.neoforge.mixin.client.accessor.PackNeoForgeAccessor;
 import fuzs.resourcepackoverrides.services.ClientAbstractions;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.packs.repository.Pack;
@@ -13,6 +14,11 @@ import java.util.List;
 public class NeoForgeClientAbstractions implements ClientAbstractions {
 
     @Override
+    public ModLoader getModLoader() {
+        return ModLoader.NEOFORGE;
+    }
+
+    @Override
     public Path getConfigDirectory() {
         return FMLPaths.CONFIGDIR.get();
     }
@@ -23,7 +29,13 @@ public class NeoForgeClientAbstractions implements ClientAbstractions {
     }
 
     @Override
-    public Pack.Metadata createPackInfo(Component description, PackCompatibility compatibility, FeatureFlagSet features, List<String> overlays, boolean hidden) {
-        return new Pack.Metadata(description, compatibility, features, overlays, hidden);
+    public void setPackHidden(Pack pack, boolean hidden) {
+        // NeoForge copies the hidden property from the metadata section, so only changing the metadata is not enough.
+        ((PackNeoForgeAccessor) pack).resourcepackoverrides$setHidden(hidden);
+    }
+
+    @Override
+    public Pack.Metadata createPackInfo(Component description, PackCompatibility compatibility, FeatureFlagSet features, List<String> overlays, boolean isHidden) {
+        return new Pack.Metadata(description, compatibility, features, overlays, isHidden);
     }
 }

@@ -1,6 +1,6 @@
 package fuzs.resourcepackoverrides.mixin.client;
 
-import fuzs.resourcepackoverrides.client.data.ResourceOverridesManager;
+import fuzs.resourcepackoverrides.config.ResourceOverridesManager;
 import net.minecraft.client.Options;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackRepository;
@@ -29,7 +29,10 @@ abstract class OptionsMixin {
         this.resourcePackOverrides$wasEmpty = this.resourcePacks.isEmpty();
     }
 
-    @Inject(method = "load", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/KeyMapping;resetMapping()V", shift = At.Shift.AFTER))
+    @Inject(method = "load",
+            at = @At(value = "INVOKE",
+                     target = "Lnet/minecraft/client/KeyMapping;resetMapping()V",
+                     shift = At.Shift.AFTER))
     private void load$1(CallbackInfo callback) {
         // Runs after options.txt file is read, so will be skipped when it has not been generated yet.
         this.resourcePackOverrides$wasEmpty = this.resourcePacks.isEmpty();
@@ -53,13 +56,14 @@ abstract class OptionsMixin {
         // This cannot be done earlier as the pack repository is still empty.
         if (this.resourcePackOverrides$wasEmpty) {
             this.resourcePackOverrides$wasEmpty = false;
-            for (String s : ResourceOverridesManager.getDefaultResourcePacks(false)) {
-                Pack pack = resourcePackList.getPack(s);
-                if (pack == null && !s.startsWith("file/")) {
-                    pack = resourcePackList.getPack("file/" + s);
+            for (String packName : ResourceOverridesManager.getDefaultResourcePacks(false)) {
+                Pack pack = resourcePackList.getPack(packName);
+                if (pack == null && !packName.startsWith("file/")) {
+                    pack = resourcePackList.getPack("file/" + packName);
                 }
+
                 if (pack != null && !pack.getCompatibility().isCompatible()) {
-                    this.incompatibleResourcePacks.add(s);
+                    this.incompatibleResourcePacks.add(packName);
                 }
             }
         }
