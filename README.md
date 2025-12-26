@@ -40,10 +40,10 @@ Furthermore, the id of the currently hovered resource pack can be copied to the 
 ### Debug keys
 Debug keys exist to help setting up your mod packs `resourcepackoverrides.json` config file. They are only active on the resource pack selection screen and need to be held down to activate (pop-ups will appear).
 
-- Hold `R` to reload the config
-- Hold `D` to toggle showing internal pack ids for the hovered resource pack entry
-- Hold `C` to copy the hovered resource pack id to the clipboard
-- Hold `T` to restore selected resource packs as specified in `default_packs`
+- Hold `Ctrl` / `Cmd` + `R` to reload the config
+- Hold `Ctrl` / `Cmd` + `D` to toggle showing internal pack ids for the hovered resource pack entry
+- Hold `Ctrl` / `Cmd` + `C` to copy the hovered resource pack id to the clipboard
+- Hold `Ctrl` / `Cmd` + `T` to restore selected resource packs as specified in `default_packs` (1.20.4+ only)
 
 ### Default resource pack list and order
 This happens for a new install when `options.txt` is still absent/blank, or after resource pack loading has failed and resets to a bare-bones state.

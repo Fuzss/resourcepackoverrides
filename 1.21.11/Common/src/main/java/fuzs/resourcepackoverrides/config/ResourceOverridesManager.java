@@ -52,9 +52,13 @@ public class ResourceOverridesManager {
         defaultResourcePacks = ImmutableList.of();
         defaultOverride = PackSelectionOverride.EMPTY;
         JsonConfigFileUtil.getAndLoad(FILE_NAME, (File file) -> {
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("schema_version", SCHEMA_VERSION);
-            JsonConfigFileUtil.saveToFile(file, jsonObject);
+            JsonObject rootJsonObject = new JsonObject();
+            rootJsonObject.addProperty("schema_version", SCHEMA_VERSION);
+            // Make all packs compatible by default in the config.
+            JsonObject defaultOverridesJsonObject = new JsonObject();
+            defaultOverridesJsonObject.addProperty("force_compatible", true);
+            rootJsonObject.add("default_overrides", defaultOverridesJsonObject);
+            JsonConfigFileUtil.saveToFile(file, rootJsonObject);
         }, ResourceOverridesManager::deserializeAllOverrides);
     }
 

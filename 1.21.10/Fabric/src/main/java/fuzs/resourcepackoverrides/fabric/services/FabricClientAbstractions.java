@@ -31,11 +31,13 @@ public final class FabricClientAbstractions implements ClientAbstractions {
     }
 
     @Override
-    public void setPackHidden(Pack pack, boolean hidden) {
-        // Fabric Api checks this using reference equality against an internally stored field when a pack is not supposed to be hidden.
-        // We do not have access to that field, so we only support making the pack hidden, which is fine.
-        if (hidden) {
-            ((FabricResourcePackProfile) pack).fabric_setParentsPredicate(Predicates.alwaysTrue());
+    public void setPackHidden(Pack pack, boolean isHidden) {
+        if (isHidden && !this.isPackHidden(pack)) {
+            // Fabric Api checks this using reference equality against an internally stored field when a pack is not supposed to be hidden.
+            // We do not have access to that field, so we only support making the pack hidden, which is fine.
+            // Should be enough to set this predicate based on required, as there is not really another way to change the state between enabled / disabled.
+            ((FabricResourcePackProfile) pack).fabric_setParentsPredicate(
+                    pack.isRequired() ? Predicates.alwaysTrue() : Predicates.alwaysFalse());
         }
     }
 

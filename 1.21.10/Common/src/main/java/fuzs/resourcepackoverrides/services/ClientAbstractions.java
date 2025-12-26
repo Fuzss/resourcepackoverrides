@@ -17,7 +17,7 @@ public interface ClientAbstractions {
 
     boolean isPackHidden(Pack pack);
 
-    void setPackHidden(Pack pack, boolean hidden);
+    void setPackHidden(Pack pack, boolean isHidden);
 
     Pack.Metadata createPackInfo(Component description, PackCompatibility compatibility, FeatureFlagSet features, List<String> overlays, boolean isHidden);
 

@@ -29,9 +29,9 @@ public class NeoForgeClientAbstractions implements ClientAbstractions {
     }
 
     @Override
-    public void setPackHidden(Pack pack, boolean hidden) {
+    public void setPackHidden(Pack pack, boolean isHidden) {
         // NeoForge copies the hidden property from the metadata section, so only changing the metadata is not enough.
-        ((PackNeoForgeAccessor) pack).resourcepackoverrides$setHidden(hidden);
+        ((PackNeoForgeAccessor) pack).resourcepackoverrides$setHidden(isHidden);
     }
 
     @Override
